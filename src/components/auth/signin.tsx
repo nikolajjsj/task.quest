@@ -1,6 +1,6 @@
 import { BuiltInProviderType } from "next-auth/providers";
 import { ClientSafeProvider, LiteralUnion, signIn } from "next-auth/react";
-import { Button } from "../../components/common/common";
+import { Button } from "../common/common";
 import { styled } from "../../styles/stitches.config";
 
 type Props = {
