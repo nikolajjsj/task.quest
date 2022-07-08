@@ -4,6 +4,9 @@ import { z } from "zod";
 export const todoRouter = createRouter()
   .query("getAll", {
     async resolve({ ctx }) {
+      const userId = ctx.session?.id as string;
+      if (userId == null) return [];
+
       return await ctx.prisma.todo.findMany({
         where: { userId: ctx.session?.id as string },
       });
