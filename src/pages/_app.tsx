@@ -1,11 +1,10 @@
-// src/pages/_app.tsx
 import { withTRPC } from "@trpc/next";
-import type { AppRouter } from "../server/router";
+import { SessionProvider } from "next-auth/react";
 import type { AppType } from "next/dist/shared/lib/utils";
 import superjson from "superjson";
-import { SessionProvider } from "next-auth/react";
-import "../styles/globals.css";
 import { Navbar } from "../components/Navbar";
+import type { AppRouter } from "../server/router";
+import "../styles/globals.css";
 import { styled } from "../styles/stitches.config";
 
 const MyApp: AppType = ({
@@ -57,12 +56,13 @@ export default withTRPC<AppRouter>({
 })(MyApp);
 
 namespace s {
-  export const App = styled("div", {
+  export const App = styled("main", {
+    position: "relative",
     display: "flex",
-    minHeight: "100vh",
+    height: "100vh",
     width: "100vw",
     maxWidth: "100vw",
-    background: "$black",
-    color: "$white",
+    background: "$white",
+    color: "$black",
   });
 }

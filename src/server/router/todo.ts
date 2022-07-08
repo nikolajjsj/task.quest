@@ -4,7 +4,9 @@ import { z } from "zod";
 export const todoRouter = createRouter()
   .query("getAll", {
     async resolve({ ctx }) {
-      return await ctx.prisma.todo.findMany();
+      return await ctx.prisma.todo.findMany({
+        where: { userId: ctx.session?.id as string },
+      });
     },
   })
   .mutation("create", {
@@ -14,13 +16,12 @@ export const todoRouter = createRouter()
       date: z.date().nullish(),
       color: z.string(),
       tag: z.string().nullish(),
-
-      // userId      String
-      // user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
     }),
     async resolve({ ctx, input }) {
+      const userId = ctx.session?.id as string;
+      if (userId == null) return;
       return await ctx.prisma.todo.create({
-        data: { ...input, userId: ctx.session?.user?.name! },
+        data: { ...input, userId },
       });
     },
   });
