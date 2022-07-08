@@ -14,9 +14,4 @@ export const authRouter = createRouter()
       throw new TRPCError({ code: "UNAUTHORIZED" });
     }
     return next();
-  })
-  .query("getSecretMessage", {
-    async resolve({ ctx }) {
-      return "You are logged in and can see this secret message!";
-    },
   });
