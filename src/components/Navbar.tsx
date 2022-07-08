@@ -9,21 +9,21 @@ export const Navbar = () => {
   return (
     <s.Navbar>
       <Link href="/">
-        <Button variant="ghost" size="sm">
+        <Button variant="navbar" size="sm">
           <s.Icon as={HiHome} />
-        </Button>
-      </Link>
-
-      <Link href="/auth">
-        <Button variant="ghost" size="sm">
-          <s.Icon as={FaUserCircle} />
         </Button>
       </Link>
 
       <Spacer y="auto" />
 
+      <Link href="/auth">
+        <Button variant="navbar" size="sm">
+          <s.Icon as={FaUserCircle} />
+        </Button>
+      </Link>
+
       <Link href="/settings">
-        <Button variant="ghost" size="sm">
+        <Button variant="navbar" size="sm">
           <s.Icon as={IoIosSettings} />
         </Button>
       </Link>
@@ -39,8 +39,7 @@ namespace s {
     left: 0,
     display: "flex",
     flexDirection: "column",
-    boxShadow: "$base",
-    background: "$navbar",
+    background: "$black",
     padding: "$1",
     gap: "$2",
 

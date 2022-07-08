@@ -1,4 +1,12 @@
-import { styled } from "../../styles/stitches.config";
+import { SCREEN_MD, styled } from "../../styles/stitches.config";
+
+export const AppTitle = styled("h1", {
+  fontSize: "$4xl",
+  fontWeight: 700,
+  letterSpacing: "$wider",
+});
+
+export const Span = styled("span", {});
 
 export const Hr = styled("hr", {
   width: "90%",
@@ -11,22 +19,31 @@ export const Button = styled("button", {
   width: "fit-content",
   borderRadius: "$lg",
   cursor: "pointer",
+  boxShadow: "$lg",
 
   variants: {
     variant: {
       primary: {
         background: "$primary-500",
         color: "$white",
+        border: "1px solid $white",
       },
       secondary: {
         background: "$secondary-500",
         color: "$white",
+        border: "1px solid $white",
       },
       white: {
         background: "$white",
         color: "$black",
+        border: "1px solid $black",
       },
-      ghost: {
+      delete: {
+        background: "$danger",
+        color: "$white",
+        border: "1px solid $white",
+      },
+      navbar: {
         background: "transparent",
 
         "&:hover": {
@@ -53,8 +70,11 @@ export const Button = styled("button", {
 });
 
 export const Card = styled("div", {
+  flex: "auto",
+  width: "100%",
+  maxWidth: SCREEN_MD,
   borderRadius: "$lg",
-  boxShadow: "$card",
+  boxShadow: "$lg",
   border: "1px solid grey",
   padding: "$4",
 });
