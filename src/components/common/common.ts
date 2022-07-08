@@ -16,7 +16,7 @@ export const Button = styled("button", {
     variant: {
       primary: {
         background: "$primary-500",
-        color: "$black",
+        color: "$white",
       },
       secondary: {
         background: "$secondary-500",
@@ -28,6 +28,10 @@ export const Button = styled("button", {
       },
       ghost: {
         background: "transparent",
+
+        "&:hover": {
+          background: "$black",
+        },
       },
     },
 
@@ -46,6 +50,13 @@ export const Button = styled("button", {
     variant: "primary",
     size: "base",
   },
+});
+
+export const Card = styled("div", {
+  borderRadius: "$lg",
+  boxShadow: "$card",
+  border: "1px solid grey",
+  padding: "$4",
 });
 
 export const Spacer = styled("div", {
