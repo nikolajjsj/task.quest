@@ -20,8 +20,12 @@ export const todoRouter = createRouter()
     async resolve({ ctx, input }) {
       const userId = ctx.session?.id as string;
       if (userId == null) return;
-      return await ctx.prisma.todo.create({
-        data: { ...input, userId },
-      });
+      return await ctx.prisma.todo.create({ data: { ...input, userId } });
+    },
+  })
+  .mutation("delete", {
+    input: z.string(),
+    async resolve({ ctx, input }) {
+      return await ctx.prisma.todo.delete({ where: { id: input } });
     },
   });
