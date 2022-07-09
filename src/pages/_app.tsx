@@ -3,6 +3,7 @@ import { SessionProvider } from "next-auth/react";
 import type { AppType } from "next/dist/shared/lib/utils";
 import superjson from "superjson";
 import { Navbar } from "../components/Navbar";
+import { RouteGuard } from "../hooks/routeGuard";
 import type { AppRouter } from "../server/router";
 import "../styles/globals.css";
 import { styled } from "../styles/stitches.config";
@@ -16,7 +17,9 @@ const MyApp: AppType = ({
       <s.App>
         <Navbar />
 
-        <Component {...pageProps} />
+        <RouteGuard>
+          <Component {...pageProps} />
+        </RouteGuard>
       </s.App>
     </SessionProvider>
   );
