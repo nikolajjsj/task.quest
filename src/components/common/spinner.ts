@@ -13,8 +13,6 @@ const loading = keyframes({
 
 export const Spinner = styled("div", {
   borderRadius: "50%",
-  width: "3em",
-  height: "3em",
   fontSize: "10px",
   position: "relative",
   textIndent: "-9999em",
@@ -45,8 +43,33 @@ export const Spinner = styled("div", {
         borderLeft: "0.5em solid #fff",
       },
     },
+    center: {
+      true: {
+        flex: "auto",
+        position: "absolute",
+        left: "50%",
+        top: "50%",
+        transform: "translate(-50%,-50%)",
+      },
+    },
+    size: {
+      small: {
+        width: "2em",
+        height: "2em",
+      },
+      medium: {
+        width: "3em",
+        height: "3em",
+      },
+      large: {
+        width: "5em",
+        height: "5em",
+      },
+    },
   },
   defaultVariants: {
     color: "black",
+    center: false,
+    size: "medium",
   },
 });
