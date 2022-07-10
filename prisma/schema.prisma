@@ -10,6 +10,17 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+model Project {
+    id          String   @id @default(cuid())
+    userId      String
+    user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    title       String
+    description String?
+    color       String
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+}
+
 model Todo {
     id          String    @id @default(cuid())
     userId      String
@@ -69,6 +80,7 @@ model User {
     sessions      Session[]
     Todo          Todo[]
     Comment       Comment[]
+    Project       Project[]
 }
 
 model VerificationToken {
