@@ -63,7 +63,10 @@ export const ProjectDialog = ({ onClose }: { onClose: () => void }) => {
             <CirclePicker
               {...register("color", { required: true })}
               color={color}
-              onChange={(color) => setValue("color", color.hex)}
+              onChange={(color) => {
+                console.log(color);
+                return setValue("color", color.hex);
+              }}
             />
           </input.InputGroup>
         </d.DialogContent>
