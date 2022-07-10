@@ -23,7 +23,9 @@ const MyApp: AppType = ({
         <Navbar />
 
         <RouteGuard>
-          <Component {...pageProps} />
+          <s.AppContent>
+            <Component {...pageProps} />
+          </s.AppContent>
         </RouteGuard>
       </s.App>
     </SessionProvider>
@@ -65,13 +67,20 @@ export default withTRPC<AppRouter>({
 
 namespace s {
   export const App = styled("main", {
-    position: "relative",
-    display: "flex",
-    height: "100vh",
+    minHeight: "100vh",
     width: "100vw",
     maxWidth: "100vw",
+    flex: "auto",
+    position: "relative",
+    display: "flex",
     background: "$white",
     color: "$black",
     transition: "0.2s",
+  });
+
+  export const AppContent = styled("div", {
+    flex: "auto",
+    overflowX: "hidden",
+    overflowY: "auto",
   });
 }

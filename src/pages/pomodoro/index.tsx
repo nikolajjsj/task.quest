@@ -173,8 +173,13 @@ namespace s {
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    paddingInline: "$4",
-    gap: "$8",
+    padding: "$4",
+    gap: "$4",
+
+    "@md": {
+      padding: "$8",
+      gap: "$8",
+    },
   });
 
   export const Pomodoro = styled("div", {
@@ -182,11 +187,16 @@ namespace s {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    gap: "$8",
-    padding: "$12",
+    gap: "$2",
+    padding: "$4",
     borderRadius: "$lg",
     transition: "0.2s",
     boxShadow: "$md",
+
+    "@sm": {
+      padding: "$12",
+      gap: "$8",
+    },
 
     variants: {
       variant: {
@@ -210,25 +220,42 @@ namespace s {
   });
 
   export const Time = styled("h2", {
-    fontSize: "$9xl",
+    fontSize: "$5xl",
     fontWeight: 700,
     letterSpacing: "$widest",
+
+    "@xs": { fontSize: "$7xl" },
+    "@sm": { fontSize: "$9xl" },
   });
 
   export const Controls = styled("div", {
     display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
     gap: "$4",
+
+    "@sm": {
+      flexDirection: "row",
+    },
   });
 
   export const TypeReset = {
     boxShadow: "none",
     border: `1px solid transparent`,
-    fontSize: "$base",
+    fontSize: "$xs",
     background: "transparent",
+
+    "@md": {
+      fontSize: "$base",
+    },
   };
   export const Button = styled(AppButton, {
+    fontSize: "$xs",
     fontWeight: 700,
-    fontSize: "$2xl",
     textTransform: "uppercase",
+
+    "@md": {
+      fontSize: "$2xl",
+    },
   });
 }

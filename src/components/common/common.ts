@@ -1,9 +1,13 @@
 import { SCREEN_MD, styled } from "../../styles/stitches.config";
 
 export const AppTitle = styled("h1", {
-  fontSize: "$4xl",
+  fontSize: "$2xl",
   fontWeight: 700,
   letterSpacing: "$wider",
+
+  "@md": {
+    fontSize: "$4xl",
+  },
 });
 
 export const Span = styled("span", {});
