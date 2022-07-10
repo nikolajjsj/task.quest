@@ -67,9 +67,8 @@ export default withTRPC<AppRouter>({
 
 namespace s {
   export const App = styled("main", {
-    minHeight: "100vh",
+    height: "100vh",
     width: "100vw",
-    maxWidth: "100vw",
     flex: "auto",
     position: "relative",
     display: "flex",
