@@ -50,6 +50,9 @@ export const Button = styled("button", {
           background: "$black",
         },
       },
+      ghost: {
+        background: "transparent",
+      },
     },
 
     size: {
