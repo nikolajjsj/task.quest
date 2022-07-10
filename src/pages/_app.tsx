@@ -5,6 +5,7 @@ import superjson from "superjson";
 import { Navbar } from "../components/Navbar";
 import { RouteGuard } from "../hooks/routeGuard";
 import type { AppRouter } from "../server/router";
+import Head from "next/head";
 import "../styles/globals.css";
 import { styled } from "../styles/stitches.config";
 
@@ -14,6 +15,10 @@ const MyApp: AppType = ({
 }) => {
   return (
     <SessionProvider session={session}>
+      <Head>
+        <title>Task.quest</title>
+      </Head>
+
       <s.App>
         <Navbar />
 
@@ -67,5 +72,6 @@ namespace s {
     maxWidth: "100vw",
     background: "$white",
     color: "$black",
+    transition: "0.2s",
   });
 }
