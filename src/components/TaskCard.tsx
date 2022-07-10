@@ -1,5 +1,5 @@
 import { Todo } from "@prisma/client";
-import { rem, styled } from "../styles/stitches.config";
+import { styled } from "../styles/stitches.config";
 import { Button, Card } from "./common/common";
 import { RiDeleteBinFill } from "react-icons/ri";
 import { useQueryClient } from "react-query";
@@ -20,7 +20,7 @@ export const TaskCard = ({ task }: Props) => {
   });
 
   return (
-    <Card css={{ border: `2px solid ${task.color}`, margin: "0 auto" }}>
+    <Card css={{ border: `2px solid ${taskColor}`, margin: "0 auto" }}>
       <s.Header>
         <s.Title>{task.title}</s.Title>
 

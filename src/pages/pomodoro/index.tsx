@@ -176,6 +176,7 @@ export default Pomodoro;
 namespace s {
   export const Pane = styled("div", {
     flex: "auto",
+    overflow: "auto",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",

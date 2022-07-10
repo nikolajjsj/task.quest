@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { FaUserCircle } from "react-icons/fa";
-import { HiHome } from "react-icons/hi";
+import { HiHome, HiTemplate } from "react-icons/hi";
 import { RiTimerFlashLine } from "react-icons/ri";
 import { IoIosSettings } from "react-icons/io";
 import { rem, styled } from "../styles/stitches.config";
@@ -12,6 +12,12 @@ export const Navbar = () => {
       <Link href="/">
         <Button variant="navbar" size="sm">
           <s.Icon as={HiHome} />
+        </Button>
+      </Link>
+
+      <Link href="/projects">
+        <Button variant="navbar" size="sm">
+          <s.Icon as={HiTemplate} />
         </Button>
       </Link>
 

@@ -105,7 +105,6 @@ namespace s {
   const MAX_WIDTH = 720; // px
   export const Dialog = styled("div", {
     width: "calc(100% - $space$10)",
-    height: "calc(100% - $space$10)",
     maxWidth: rem(MAX_WIDTH),
 
     background: "$white",
@@ -130,16 +129,17 @@ namespace s {
   });
 
   export const Header = styled("div", {
-    padding: "$2-5 $5",
     display: "flex",
     alignItems: "center",
+    background: "$navbar",
+    color: "$white",
+    padding: "$4",
   });
 
-  export const Title = styled("div", {
+  export const Title = styled("h3", {
     flex: "initial",
-    text: "2xl",
-    fontWeight: "500",
-    color: "$default-800",
+    text: "4xl",
+    fontWeight: 700,
   });
 
   export const CloseButton = styled("button", {

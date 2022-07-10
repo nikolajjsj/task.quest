@@ -2,7 +2,6 @@ import { styled } from "../../styles/stitches.config";
 
 const BORDER_RADIUS = "$lg";
 const BORDER = "1px solid grey";
-const MIN_WIDTH = "568px";
 const PADDING = "$3 $4";
 
 export const Form = styled("form", {
@@ -14,12 +13,12 @@ export const Form = styled("form", {
 export const InputGroup = styled("div", {
   display: "flex",
   flexDirection: "column",
-  minWidth: MIN_WIDTH,
   gap: "$1",
 });
 
 export const Label = styled("label", {
   flex: "auto",
+  fontWeight: 600,
 });
 
 export const Input = styled("input", {

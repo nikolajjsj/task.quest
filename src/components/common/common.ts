@@ -17,13 +17,23 @@ export const Hr = styled("hr", {
   margin: "0 auto",
 });
 
+export const Error = styled("p", {
+  color: "$danger",
+  fontSize: "$sm",
+});
+
 export const Button = styled("button", {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  gap: "$2",
   border: "1px solid transparent",
   height: "fit-content",
-  width: "fit-content",
   borderRadius: "$lg",
   cursor: "pointer",
   boxShadow: "$lg",
+  fontSize: "$base",
+  fontWeight: 600,
 
   variants: {
     variant: {
@@ -41,6 +51,10 @@ export const Button = styled("button", {
         background: "$white",
         color: "$black",
         border: "1px solid $black",
+
+        "&:hover": {
+          background: "none rgba(0, 0, 0, 0.1)",
+        },
       },
       delete: {
         background: "$danger",
@@ -56,6 +70,10 @@ export const Button = styled("button", {
       },
       ghost: {
         background: "transparent",
+
+        "&:hover": {
+          background: "none rgba(0, 0, 0, 0.1)",
+        },
       },
     },
 

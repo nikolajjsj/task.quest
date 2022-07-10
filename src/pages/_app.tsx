@@ -23,9 +23,9 @@ const MyApp: AppType = ({
         <Navbar />
 
         <RouteGuard>
-          <s.AppContent>
-            <Component {...pageProps} />
-          </s.AppContent>
+          {/* <s.AppContent> */}
+          <Component {...pageProps} />
+          {/* </s.AppContent> */}
         </RouteGuard>
       </s.App>
     </SessionProvider>
@@ -69,7 +69,6 @@ namespace s {
   export const App = styled("main", {
     height: "100vh",
     width: "100vw",
-    flex: "auto",
     position: "relative",
     display: "flex",
     background: "$white",
