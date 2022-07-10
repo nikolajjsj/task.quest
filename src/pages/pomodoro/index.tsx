@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BsSkipEnd } from "react-icons/bs";
 import { AppTitle, Button as AppButton } from "../../components/common/common";
 import { styled } from "../../styles/stitches.config";
@@ -103,6 +103,13 @@ const Pomodoro = () => {
       return null;
     });
   };
+
+  useEffect(() => {
+    return () => {
+      if (tickerId !== null) window.clearInterval(tickerId);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
