@@ -1,4 +1,4 @@
-import { Todo } from "@prisma/client";
+import { Project, Todo } from "@prisma/client";
 import { styled } from "../styles/stitches.config";
 import { Button, Card } from "./common/common";
 import { RiDeleteBinFill } from "react-icons/ri";
@@ -7,15 +7,20 @@ import { trpc } from "../utils/trpc";
 import { Spinner } from "./common/spinner";
 
 type Props = {
+  project?: Project;
   task: Todo;
 };
-export const TaskCard = ({ task }: Props) => {
+export const TaskCard = ({ task, project }: Props) => {
   const taskColor = task.color.length > 0 ? task.color : "#000";
 
   const v = useQueryClient();
   const { mutate, isLoading } = trpc.useMutation(["todo.delete"], {
     onSuccess() {
-      v.invalidateQueries(["todo.getAll"]);
+      if (project?.id !== undefined) {
+        v.invalidateQueries(["project.get", { id: project?.id }]);
+      } else {
+        v.invalidateQueries(["todo.getOther"]);
+      }
     },
   });
 

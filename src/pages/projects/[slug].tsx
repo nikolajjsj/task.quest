@@ -59,7 +59,7 @@ const Project: NextPage = () => {
 
             <s.Tasks>
               {project?.Todo?.map((todo) => (
-                <TaskCard key={todo.id} task={todo} />
+                <TaskCard key={todo.id} task={todo} project={project} />
               ))}
             </s.Tasks>
           </>
