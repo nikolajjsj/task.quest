@@ -14,10 +14,6 @@ export const ProjectNavbar = ({ projects }: Props) => {
   return (
     <>
       <s.ProjectNavbar>
-        <Link href={`/projects`}>
-          <Button>Projects</Button>
-        </Link>
-
         {projects?.map((p) => (
           <Link key={p.id} href={`/projects/${p.id}`}>
             <Button variant="white">{p.title}</Button>
@@ -41,7 +37,7 @@ namespace s {
     flexDirection: "column",
     alignItems: "stretch",
     borderRight: "1px solid $black",
-    padding: "$2",
+    padding: "$4",
     gap: "$2",
   });
 }
