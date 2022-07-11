@@ -42,4 +42,19 @@ export const taskRouter = createRouter()
     async resolve({ ctx, input }) {
       return await ctx.prisma.task.delete({ where: { id: input } });
     },
+  })
+  .mutation("toggle", {
+    input: z.object({
+      status: z
+        .enum(["TODO", "INPROGRESS", "DONE", "CANCELLED"])
+        .default("TODO"),
+      id: z.string(),
+    }),
+    async resolve({ ctx, input }) {
+      return await ctx.prisma.task.update({
+        where: { id: input.id },
+        select: { status: true },
+        data: { status: input.status },
+      });
+    },
   });
