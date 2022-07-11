@@ -61,7 +61,7 @@ namespace s {
 
   export const FeatureLink = styled(Card, {
     boxShadow: "$xl",
-    padding: "$8",
+    padding: "$12 $8",
     textTransform: "uppercase",
     fontWeight: 700,
     letterSpacing: "$wider",
