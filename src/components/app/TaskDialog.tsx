@@ -25,6 +25,7 @@ export const TaskDialog = ({ onClose, projectId }: Props) => {
   const { mutateAsync, isLoading } = trpc.useMutation(["task.create"], {
     onSuccess() {
       v.invalidateQueries(["project.get", { id: projectId }]);
+      v.invalidateQueries(["task.getAll"]);
     },
   });
 
