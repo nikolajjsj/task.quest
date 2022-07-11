@@ -1,7 +1,9 @@
 import { Project } from "@prisma/client";
 import Link from "next/link";
+import { GiWhiteBook } from "react-icons/gi";
 import { rem, styled } from "../../styles/stitches.config";
 import { Card as AppCard } from "../common/card";
+import { Flex } from "../common/common";
 import { Description, Title } from "../common/text";
 
 type Props = {
@@ -14,7 +16,10 @@ export const ProjectCard = ({ project }: Props) => {
     <Link href={`projects/${project.id}`}>
       <s.Card>
         <s.Header>
-          <Title>{project.title}</Title>
+          <Flex gap={2} css={{ alignItems: "center" }}>
+            <GiWhiteBook size={25} color={project.color} opacity={0.5} />
+            <Title>{project.title}</Title>
+          </Flex>
           <Description>
             {tasks.length > 0
               ? `${tasks.length} ${tasks.length === 1 ? "task" : "tasks"}`

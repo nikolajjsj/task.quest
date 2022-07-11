@@ -27,7 +27,11 @@ export const TaskCard = ({ task, project }: Props) => {
   return (
     <s.Card>
       <s.Header>
+        <Flex gap={2} css={{ alignItems: "center" }}>
+          <FaTasks size={20} color={task.color} />
         <Title>{task.title}</Title>
+        </Flex>
+      </s.Header>
 
         <s.HeaderActions>
           <Button size="sm" variant="delete" onClick={() => mutate(task.id)}>
