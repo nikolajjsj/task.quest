@@ -1,7 +1,8 @@
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
-import { Button } from "../../../components/common/common";
 import { styled } from "../../../styles/stitches.config";
+import { Button } from "../../common/button";
+import { Title } from "../../common/text";
 
 export default function SignOut() {
   const { data: session } = useSession();
@@ -18,7 +19,7 @@ export default function SignOut() {
           width={200}
         />
       )}
-      {name != null && <s.Title>{name}</s.Title>}
+      {name != null && <Title>{name}</Title>}
 
       {email != null && <s.Subtitle>{email}</s.Subtitle>}
 
@@ -38,11 +39,6 @@ namespace s {
     justifyContent: "center",
     alignItems: "center",
     gap: "$4",
-  });
-
-  export const Title = styled("h2", {
-    fontSize: "$2xl",
-    margin: "0",
   });
 
   export const Subtitle = styled("p", {

@@ -1,10 +1,11 @@
 import Head from "next/head";
 import { useCallback, useEffect, useReducer, useState } from "react";
 import { BsSkipEnd } from "react-icons/bs";
-import { AppTitle, Button as AppButton } from "../../components/common/common";
 import { styled } from "../../styles/stitches.config";
 import { formatTime } from "../../utils/time";
 import * as r from "../../hooks/reducers/pomodoro.reducer";
+import { AppTitle } from "../../components/common/text";
+import { Button as AppButton } from "../../components/common/button";
 
 type TypeButtonProps = {
   type: r.POMODORO_TYPE;

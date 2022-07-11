@@ -2,13 +2,14 @@ import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { BiAddToQueue } from "react-icons/bi";
-import { AppTitle, Button } from "../../components/common/common";
 import { Spinner } from "../../components/common/spinner";
 import { TaskDialog } from "../../components/app/TaskDialog";
 import { ProjectNavbar } from "../../components/pages/projects/Navbar";
 import { TaskCard } from "../../components/app/TaskCard";
 import { rem, styled } from "../../styles/stitches.config";
 import { trpc } from "../../utils/trpc";
+import { AppTitle } from "../../components/common/text";
+import { Button } from "../../components/common/button";
 
 const Project: NextPage = () => {
   const router = useRouter();
@@ -34,14 +35,14 @@ const Project: NextPage = () => {
             <AppTitle>{project?.title}</AppTitle>
 
             <Button onClick={() => setTaskDialog(true)}>
-              Add Todo <BiAddToQueue size={30} />
+              Add Task <BiAddToQueue size={30} />
             </Button>
 
-            {project == null && <p>No todos</p>}
+            {project == null && <p>No Tasks</p>}
 
             <s.Tasks>
-              {project?.Todo?.map((todo) => (
-                <TaskCard key={todo.id} task={todo} project={project} />
+              {project?.Task?.map((task) => (
+                <TaskCard key={task.id} task={task} project={project} />
               ))}
             </s.Tasks>
           </>

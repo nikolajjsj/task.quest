@@ -9,6 +9,7 @@ export const projectRouter = createRouter()
 
       return await ctx.prisma.project.findMany({
         where: { userId: ctx.session?.id as string },
+        include: { Task: true, user: true },
       });
     },
   })
@@ -17,7 +18,7 @@ export const projectRouter = createRouter()
     async resolve({ ctx, input }) {
       return await ctx.prisma.project.findFirst({
         where: { id: input.id },
-        include: { Todo: true, user: true },
+        include: { Task: true, user: true },
       });
     },
   })

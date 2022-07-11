@@ -1,13 +1,13 @@
 import { createRouter } from "./context";
 import { z } from "zod";
 
-export const todoRouter = createRouter()
+export const taskRouter = createRouter()
   .query("getAll", {
     async resolve({ ctx }) {
       const userId = ctx.session?.id as string;
       if (userId == null) return [];
 
-      return await ctx.prisma.todo.findMany({
+      return await ctx.prisma.task.findMany({
         where: { userId: ctx.session?.id as string },
       });
     },
@@ -17,7 +17,7 @@ export const todoRouter = createRouter()
       const userId = ctx.session?.id as string;
       if (userId == null) return [];
 
-      return await ctx.prisma.todo.findMany({
+      return await ctx.prisma.task.findMany({
         where: { userId: ctx.session?.id as string, projectId: null },
       });
     },
@@ -34,12 +34,12 @@ export const todoRouter = createRouter()
     async resolve({ ctx, input }) {
       const userId = ctx.session?.id as string;
       if (userId == null) return;
-      return await ctx.prisma.todo.create({ data: { ...input, userId } });
+      return await ctx.prisma.task.create({ data: { ...input, userId } });
     },
   })
   .mutation("delete", {
     input: z.string(),
     async resolve({ ctx, input }) {
-      return await ctx.prisma.todo.delete({ where: { id: input } });
+      return await ctx.prisma.task.delete({ where: { id: input } });
     },
   });

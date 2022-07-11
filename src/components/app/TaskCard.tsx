@@ -1,33 +1,33 @@
-import { Project, Todo } from "@prisma/client";
-import { styled } from "../../styles/stitches.config";
-import { Button, Card } from "../common/common";
+import { Project, Task } from "@prisma/client";
 import { RiDeleteBinFill } from "react-icons/ri";
 import { useQueryClient } from "react-query";
+import { rem, styled } from "../../styles/stitches.config";
 import { trpc } from "../../utils/trpc";
+import { Button } from "../common/button";
+import { Card as AppCard } from "../common/card";
 import { Spinner } from "../common/spinner";
+import { Description, Title } from "../common/text";
 
 type Props = {
   project?: Project;
-  task: Todo;
+  task: Task;
 };
 export const TaskCard = ({ task, project }: Props) => {
-  const taskColor = task.color.length > 0 ? task.color : "#000";
-
   const v = useQueryClient();
-  const { mutate, isLoading } = trpc.useMutation(["todo.delete"], {
+  const { mutate, isLoading } = trpc.useMutation(["task.delete"], {
     onSuccess() {
       if (project?.id !== undefined) {
         v.invalidateQueries(["project.get", { id: project?.id }]);
       } else {
-        v.invalidateQueries(["todo.getOther"]);
+        v.invalidateQueries(["task.getAll"]);
       }
     },
   });
 
   return (
-    <Card css={{ border: `2px solid ${taskColor}`, margin: "0 auto" }}>
+    <s.Card>
       <s.Header>
-        <s.Title>{task.title}</s.Title>
+        <Title>{task.title}</Title>
 
         <s.HeaderActions>
           <Button size="sm" variant="delete" onClick={() => mutate(task.id)}>
@@ -40,28 +40,35 @@ export const TaskCard = ({ task, project }: Props) => {
         </s.HeaderActions>
       </s.Header>
 
-      <s.Description>{task.description}</s.Description>
-    </Card>
+      <Description>{task.description}</Description>
+    </s.Card>
   );
 };
 
 namespace s {
+  export const Card = styled(AppCard, {
+    minHeight: rem(150),
+
+    "&:hover": {
+      [`& ${Button}`]: {
+        display: "flex",
+      },
+    },
+
+    [`& ${Button}`]: {
+      display: "none",
+    },
+  });
+
   export const Header = styled("header", {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-  });
-
-  export const Title = styled("h4", {
-    fontSize: "$2xl",
-    fontWeight: 600,
+    paddingBottom: "$4",
   });
 
   export const HeaderActions = styled("div", {
+    height: rem(25),
     display: "flex",
-  });
-
-  export const Description = styled("p", {
-    margin: "$4 0",
   });
 }

@@ -2,8 +2,8 @@ import { Project } from "@prisma/client";
 import Link from "next/link";
 import { useState } from "react";
 import { rem, styled } from "../../../styles/stitches.config";
-import { Button, Spacer } from "../../common/common";
 import { ProjectDialog } from "../../app/ProjectDialog";
+import { Button } from "../../common/button";
 
 type Props = {
   projects?: Project[];
@@ -14,6 +14,10 @@ export const ProjectNavbar = ({ projects }: Props) => {
   return (
     <>
       <s.ProjectNavbar>
+        <Link href={`/projects`}>
+          <Button>Projects</Button>
+        </Link>
+
         {projects?.map((p) => (
           <Link key={p.id} href={`/projects/${p.id}`}>
             <Button variant="white">{p.title}</Button>
@@ -21,12 +25,6 @@ export const ProjectNavbar = ({ projects }: Props) => {
         ))}
 
         <Button onClick={() => setProjectDialog(true)}>Add Project</Button>
-
-        <Spacer y="auto" />
-
-        <Link href={`/projects/other`}>
-          <Button variant="white">Other</Button>
-        </Link>
       </s.ProjectNavbar>
 
       {projectDialog && (

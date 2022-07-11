@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
 import { rem, styled } from "../../styles/stitches.config";
+import { Title } from "../common/text";
 
 type Props = {
   title?: React.ReactNode;
@@ -50,7 +51,7 @@ export function Dialog({
               }
         }
       >
-        <s.Header>{title && <s.Title>{title}</s.Title>}</s.Header>
+        <s.Header>{title && <Title>{title}</Title>}</s.Header>
         {children}
       </s.Dialog>
     </s.Container>,
@@ -134,12 +135,6 @@ namespace s {
     background: "$navbar",
     color: "$white",
     padding: "$4",
-  });
-
-  export const Title = styled("h3", {
-    flex: "initial",
-    text: "4xl",
-    fontWeight: 700,
   });
 
   export const CloseButton = styled("button", {

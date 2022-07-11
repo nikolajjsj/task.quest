@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
-import Link from "next/link";
-import { AppTitle, Card, Span } from "../components/common/common";
+import { FeatureCard } from "../components/app/FeatureCard";
+import { AppTitle, Span } from "../components/common/text";
 import { SCREEN_XL, styled } from "../styles/stitches.config";
 
 const Home: NextPage = () => {
@@ -11,17 +11,17 @@ const Home: NextPage = () => {
       </AppTitle>
 
       <s.Features>
-        <Link href="/pomodoro">
-          <s.FeatureLink css={{ background: "#2196f3", color: "$white" }}>
-            Pomodoro
-          </s.FeatureLink>
-        </Link>
+        <FeatureCard
+          href="/pomodoro"
+          title="Pomodoro"
+          backgroundColor="#2196f3"
+        />
 
-        <Link href="/projects">
-          <s.FeatureLink css={{ background: "#009688", color: "$white" }}>
-            Projects
-          </s.FeatureLink>
-        </Link>
+        <FeatureCard
+          href="/projects"
+          title="Projects"
+          backgroundColor="#009688"
+        />
       </s.Features>
     </s.Home>
   );
@@ -57,14 +57,5 @@ namespace s {
       width: "80%",
       // gridTemplateColumns: "1fr 1fr 1fr",
     },
-  });
-
-  export const FeatureLink = styled(Card, {
-    boxShadow: "$xl",
-    padding: "$12 $8",
-    textTransform: "uppercase",
-    fontWeight: 700,
-    letterSpacing: "$wider",
-    fontSize: "$4xl",
   });
 }

@@ -2,10 +2,11 @@ import { CirclePicker } from "react-color";
 import { useForm } from "react-hook-form";
 import { useQueryClient } from "react-query";
 import { trpc } from "../../utils/trpc";
-import { Button, Error } from "../common/common";
-import * as d from "./dialog";
+import { Button } from "../common/button";
 import * as input from "../common/inputs";
 import { Spinner } from "../common/spinner";
+import { Error } from "../common/text";
+import * as d from "./dialog";
 
 type Inputs = {
   title: string;
@@ -21,7 +22,7 @@ type Props = {
 };
 export const TaskDialog = ({ onClose, projectId }: Props) => {
   const v = useQueryClient();
-  const { mutateAsync, isLoading } = trpc.useMutation(["todo.create"], {
+  const { mutateAsync, isLoading } = trpc.useMutation(["task.create"], {
     onSuccess() {
       v.invalidateQueries(["project.get", { id: projectId }]);
     },

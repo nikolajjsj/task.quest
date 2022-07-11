@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { FaUserCircle } from "react-icons/fa";
 import { HiHome, HiTemplate } from "react-icons/hi";
-import { RiTimerFlashLine } from "react-icons/ri";
 import { IoIosSettings } from "react-icons/io";
+import { RiTimerFlashLine } from "react-icons/ri";
 import { rem, styled } from "../../styles/stitches.config";
-import { Button, Spacer } from "../common/common";
+import { Button } from "../common/button";
+import { Spacer } from "../common/spacer";
 
 export const Navbar = () => {
   return (
