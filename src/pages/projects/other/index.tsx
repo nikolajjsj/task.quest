@@ -15,7 +15,7 @@ const ProjectOther: NextPage = () => {
   const { data: projects, isLoading: projectsLoading } = trpc.useQuery([
     "project.getAll",
   ]);
-  const { data: todos, isLoading } = trpc.useQuery(["todo.getOthers"]);
+  const { data: todos, isLoading } = trpc.useQuery(["todo.getOther"]);
 
   const [taskDialog, setTaskDialog] = useState<boolean>(false);
   const [projectDialog, setProjectDialog] = useState<boolean>(false);

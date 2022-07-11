@@ -12,7 +12,7 @@ export const todoRouter = createRouter()
       });
     },
   })
-  .query("getOthers", {
+  .query("getOther", {
     async resolve({ ctx }) {
       const userId = ctx.session?.id as string;
       if (userId == null) return [];
@@ -22,17 +22,6 @@ export const todoRouter = createRouter()
       });
     },
   })
-  // .query("getProjectTodos", {
-  //   input: z.object({ id: z.string() }),
-  //   async resolve({ ctx, input }) {
-  //     const userId = ctx.session?.id as string;
-  //     if (userId == null) return [];
-
-  //     return await ctx.prisma.todo.findMany({
-  //       where: { userId: ctx.session?.id as string },
-  //     });
-  //   },
-  // })
   .mutation("create", {
     input: z.object({
       projectId: z.string().nullish(),
