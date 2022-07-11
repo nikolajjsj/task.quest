@@ -30,29 +30,27 @@ const Project: NextPage = () => {
       <s.Home>
         <AppTitle>Projects</AppTitle>
 
-        <Button onClick={() => setProjectDialog(true)}>
-          <BiBookAdd size={30} />
-        </Button>
-
-        <s.Projects>
+        <s.Grid>
           {projects?.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
-        </s.Projects>
+          <Button onClick={() => setProjectDialog(true)}>
+            <BiBookAdd size={30} />
+          </Button>
+        </s.Grid>
 
         <Spacer y={8} />
 
-        <AppTitle>Project-less Tasks</AppTitle>
+        <AppTitle>Orphaned Tasks</AppTitle>
 
-        <Button onClick={() => setTaskDialog(true)}>
-          <BiBookAdd size={30} />
-        </Button>
-
-        <s.Projects>
+        <s.Grid>
           {tasks?.map((task) => (
             <TaskCard key={task.id} task={task} />
           ))}
-        </s.Projects>
+          <Button onClick={() => setTaskDialog(true)}>
+            <BiBookAdd size={30} />
+          </Button>
+        </s.Grid>
       </s.Home>
 
       {projectDialog && (
@@ -71,7 +69,7 @@ namespace s {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    gap: "$4",
+    gap: "$8",
     paddingBlock: "$4",
 
     "@md": {
@@ -79,7 +77,7 @@ namespace s {
     },
   });
 
-  export const Projects = styled("div", {
+  export const Grid = styled("div", {
     width: "95%",
     maxWidth: SCREEN_XL,
     margin: "0 auto",
