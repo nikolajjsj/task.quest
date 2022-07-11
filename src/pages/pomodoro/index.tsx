@@ -4,7 +4,7 @@ import { BsSkipEnd } from "react-icons/bs";
 import { AppTitle, Button as AppButton } from "../../components/common/common";
 import { styled } from "../../styles/stitches.config";
 import { formatTime } from "../../utils/time";
-import * as r from "./pomodoro.reducer";
+import * as r from "../../hooks/reducers/pomodoro.reducer";
 
 type TypeButtonProps = {
   type: r.POMODORO_TYPE;
