@@ -75,8 +75,8 @@ export const TaskDialog = ({ onClose, projectId }: Props) => {
         </d.DialogContent>
 
         <d.DialogFooter>
-          <Button type="submit">
-            {isLoading ? <Spinner color="white" /> : "Save"}
+          <Button type="submit" disabled={errors == null}>
+            {isLoading ? <Spinner size="small" color="white" /> : "Save"}
           </Button>
         </d.DialogFooter>
       </input.Form>

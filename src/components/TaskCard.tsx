@@ -26,7 +26,11 @@ export const TaskCard = ({ task }: Props) => {
 
         <s.HeaderActions>
           <Button size="sm" variant="delete" onClick={() => mutate(task.id)}>
-            {isLoading ? <Spinner color="white" /> : <RiDeleteBinFill />}
+            {isLoading ? (
+              <Spinner size="small" color="white" />
+            ) : (
+              <RiDeleteBinFill />
+            )}
           </Button>
         </s.HeaderActions>
       </s.Header>
