@@ -83,6 +83,7 @@ export const TaskCard = ({ task, project }: Props) => {
 
 namespace s {
   export const Card = styled(AppCard, {
+    margin: "0 auto",
     position: "relative",
     minHeight: rem(150),
 
