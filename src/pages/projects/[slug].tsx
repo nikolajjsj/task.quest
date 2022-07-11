@@ -7,6 +7,7 @@ import { AppTitle, Button, Spacer } from "../../components/common/common";
 import { Spinner } from "../../components/common/spinner";
 import { ProjectDialog } from "../../components/dialogs/ProjectDialog";
 import { TaskDialog } from "../../components/dialogs/TaskDialog";
+import { ProjectNavbar } from "../../components/projects/Navbar";
 import { TaskCard } from "../../components/TaskCard";
 import { rem, styled } from "../../styles/stitches.config";
 import { trpc } from "../../utils/trpc";
@@ -15,34 +16,17 @@ const Project: NextPage = () => {
   const router = useRouter();
   const { slug } = router.query;
 
-  const { data: projects, isLoading: projectsLoading } = trpc.useQuery([
-    "project.getAll",
-  ]);
+  const { data: projects } = trpc.useQuery(["project.getAll"]);
   const { data: project, isLoading } = trpc.useQuery([
     "project.get",
     { id: slug as string },
   ]);
 
   const [taskDialog, setTaskDialog] = useState<boolean>(false);
-  const [projectDialog, setProjectDialog] = useState<boolean>(false);
 
   return (
     <s.Home>
-      <s.HomeNavbar>
-        {projects?.map((p) => (
-          <Link key={p.id} href={`/projects/${p.id}`}>
-            <Button variant="white">{p.title}</Button>
-          </Link>
-        ))}
-
-        <Button onClick={() => setProjectDialog(true)}>Add Project</Button>
-
-        <Spacer y="auto" />
-
-        <Link href={`/projects/other`}>
-          <Button variant="white">Other</Button>
-        </Link>
-      </s.HomeNavbar>
+      <ProjectNavbar projects={projects} />
 
       <s.HomeContent>
         {isLoading ? (
@@ -71,9 +55,6 @@ const Project: NextPage = () => {
           projectId={project?.id}
           onClose={() => setTaskDialog(false)}
         />
-      )}
-      {projectDialog && (
-        <ProjectDialog onClose={() => setProjectDialog(false)} />
       )}
     </s.Home>
   );

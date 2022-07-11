@@ -1,12 +1,11 @@
 import type { NextPage } from "next";
-import Link from "next/link";
-import { useRouter } from "next/router";
 import { useState } from "react";
 import { BiAddToQueue } from "react-icons/bi";
-import { AppTitle, Button, Spacer } from "../../../components/common/common";
+import { AppTitle, Button } from "../../../components/common/common";
 import { Spinner } from "../../../components/common/spinner";
 import { ProjectDialog } from "../../../components/dialogs/ProjectDialog";
 import { TaskDialog } from "../../../components/dialogs/TaskDialog";
+import { ProjectNavbar } from "../../../components/projects/Navbar";
 import { TaskCard } from "../../../components/TaskCard";
 import { rem, styled } from "../../../styles/stitches.config";
 import { trpc } from "../../../utils/trpc";
@@ -22,21 +21,7 @@ const ProjectOther: NextPage = () => {
 
   return (
     <s.Home>
-      <s.HomeNavbar>
-        {projects?.map((p) => (
-          <Link key={p.id} href={`/projects/${p.id}`}>
-            <Button variant="white">{p.title}</Button>
-          </Link>
-        ))}
-
-        <Button onClick={() => setProjectDialog(true)}>Add Project</Button>
-
-        <Spacer y="auto" />
-
-        <Link href={`/projects/other`}>
-          <Button variant="white">Other</Button>
-        </Link>
-      </s.HomeNavbar>
+      <ProjectNavbar projects={projects} />
 
       <s.HomeContent>
         {isLoading ? (
