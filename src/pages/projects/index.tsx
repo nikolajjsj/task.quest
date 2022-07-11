@@ -3,8 +3,8 @@ import { useState } from "react";
 import { BiBookAdd } from "react-icons/bi";
 import { AppTitle, Button, Card } from "../../components/common/common";
 import { Spinner } from "../../components/common/spinner";
-import { ProjectDialog } from "../../components/dialogs/ProjectDialog";
-import { ProjectCard } from "../../components/ProjectCard";
+import { ProjectDialog } from "../../components/app/ProjectDialog";
+import { ProjectCard } from "../../components/app/ProjectCard";
 import { SCREEN_XL, styled } from "../../styles/stitches.config";
 import { trpc } from "../../utils/trpc";
 

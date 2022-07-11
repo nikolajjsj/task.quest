@@ -1,10 +1,10 @@
 import { Project, Todo } from "@prisma/client";
-import { styled } from "../styles/stitches.config";
-import { Button, Card } from "./common/common";
+import { styled } from "../../styles/stitches.config";
+import { Button, Card } from "../common/common";
 import { RiDeleteBinFill } from "react-icons/ri";
 import { useQueryClient } from "react-query";
-import { trpc } from "../utils/trpc";
-import { Spinner } from "./common/spinner";
+import { trpc } from "../../utils/trpc";
+import { Spinner } from "../common/spinner";
 
 type Props = {
   project?: Project;

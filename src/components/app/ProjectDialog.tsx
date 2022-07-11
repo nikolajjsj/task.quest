@@ -3,27 +3,21 @@ import { useForm } from "react-hook-form";
 import { useQueryClient } from "react-query";
 import { trpc } from "../../utils/trpc";
 import { Button, Error } from "../common/common";
-import * as d from "../common/dialog";
+import * as d from "./dialog";
 import * as input from "../common/inputs";
 import { Spinner } from "../common/spinner";
 
 type Inputs = {
   title: string;
   description?: string;
-  tags: string;
   color: string;
-  date?: Date;
 };
 
-type Props = {
-  projectId?: string;
-  onClose: () => void;
-};
-export const TaskDialog = ({ onClose, projectId }: Props) => {
+export const ProjectDialog = ({ onClose }: { onClose: () => void }) => {
   const v = useQueryClient();
-  const { mutateAsync, isLoading } = trpc.useMutation(["todo.create"], {
+  const { mutateAsync, isLoading } = trpc.useMutation(["project.create"], {
     onSuccess() {
-      v.invalidateQueries(["project.get", { id: projectId }]);
+      v.invalidateQueries(["project.getAll"]);
     },
   });
 
@@ -40,7 +34,7 @@ export const TaskDialog = ({ onClose, projectId }: Props) => {
 
   return (
     <d.Dialog
-      title="New Task"
+      title="New Project"
       maxHeight="lg"
       onClose={onClose}
       closeOnClickOutside
@@ -48,7 +42,7 @@ export const TaskDialog = ({ onClose, projectId }: Props) => {
     >
       <input.Form
         onSubmit={handleSubmit(async (data) => {
-          await mutateAsync({ ...data, projectId });
+          await mutateAsync(data);
           onClose();
         })}
       >
@@ -69,14 +63,17 @@ export const TaskDialog = ({ onClose, projectId }: Props) => {
             <CirclePicker
               {...register("color", { required: true })}
               color={color}
-              onChange={(color) => setValue("color", color.hex)}
+              onChange={(color) => {
+                console.log(color);
+                return setValue("color", color.hex);
+              }}
             />
           </input.InputGroup>
         </d.DialogContent>
 
         <d.DialogFooter>
-          <Button type="submit" disabled={errors == null}>
-            {isLoading ? <Spinner size="small" color="white" /> : "Save"}
+          <Button type="submit">
+            {isLoading ? <Spinner color="white" /> : "Save"}
           </Button>
         </d.DialogFooter>
       </input.Form>

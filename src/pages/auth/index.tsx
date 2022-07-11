@@ -1,6 +1,6 @@
 import { getProviders, useSession } from "next-auth/react";
-import SignIn from "../../components/auth/signin";
-import SignOut from "../../components/auth/signout";
+import SignIn from "../../components/pages/auth/signin";
+import SignOut from "../../components/pages/auth/signout";
 
 type Props = {
   providers: any;

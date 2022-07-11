@@ -3,10 +3,10 @@ import { useState } from "react";
 import { BiAddToQueue } from "react-icons/bi";
 import { AppTitle, Button } from "../../../components/common/common";
 import { Spinner } from "../../../components/common/spinner";
-import { ProjectDialog } from "../../../components/dialogs/ProjectDialog";
-import { TaskDialog } from "../../../components/dialogs/TaskDialog";
-import { ProjectNavbar } from "../../../components/projects/Navbar";
-import { TaskCard } from "../../../components/TaskCard";
+import { ProjectDialog } from "../../../components/app/ProjectDialog";
+import { TaskDialog } from "../../../components/app/TaskDialog";
+import { ProjectNavbar } from "../../../components/pages/projects/Navbar";
+import { TaskCard } from "../../../components/app/TaskCard";
 import { rem, styled } from "../../../styles/stitches.config";
 import { trpc } from "../../../utils/trpc";
 

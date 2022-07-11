@@ -2,7 +2,7 @@ import { withTRPC } from "@trpc/next";
 import { SessionProvider } from "next-auth/react";
 import type { AppType } from "next/dist/shared/lib/utils";
 import superjson from "superjson";
-import { Navbar } from "../components/Navbar";
+import { Navbar } from "../components/app/Navbar";
 import { RouteGuard } from "../hooks/routeGuard";
 import type { AppRouter } from "../server/router";
 import Head from "next/head";

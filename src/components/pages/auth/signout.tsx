@@ -1,7 +1,7 @@
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
-import { Button } from "../../components/common/common";
-import { styled } from "../../styles/stitches.config";
+import { Button } from "../../../components/common/common";
+import { styled } from "../../../styles/stitches.config";
 
 export default function SignOut() {
   const { data: session } = useSession();

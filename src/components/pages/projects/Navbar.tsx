@@ -1,9 +1,9 @@
 import { Project } from "@prisma/client";
 import Link from "next/link";
 import { useState } from "react";
-import { rem, styled } from "../../styles/stitches.config";
-import { Button, Spacer } from "../common/common";
-import { ProjectDialog } from "../dialogs/ProjectDialog";
+import { rem, styled } from "../../../styles/stitches.config";
+import { Button, Spacer } from "../../common/common";
+import { ProjectDialog } from "../../app/ProjectDialog";
 
 type Props = {
   projects?: Project[];

@@ -3,8 +3,8 @@ import { FaUserCircle } from "react-icons/fa";
 import { HiHome, HiTemplate } from "react-icons/hi";
 import { RiTimerFlashLine } from "react-icons/ri";
 import { IoIosSettings } from "react-icons/io";
-import { rem, styled } from "../styles/stitches.config";
-import { Button, Spacer } from "./common/common";
+import { rem, styled } from "../../styles/stitches.config";
+import { Button, Spacer } from "../common/common";
 
 export const Navbar = () => {
   return (
@@ -81,18 +81,4 @@ namespace s {
       width: rem(24),
     },
   });
-
-  // export const Link = styled("a", {
-  //   display: "flex",
-  //   alignItems: "center",
-  //   gap: "$4",
-  //   background: "transparent",
-  //   color: "$white",
-  //   borderRadius: "$lg",
-  //   padding: "$2 $4",
-  //   margin: "$1",
-  //   textDecoration: "none",
-  //   transition: ".2s",
-  //   cursor: "pointer",
-  // });
 }

@@ -1,8 +1,8 @@
 import { Project } from "@prisma/client";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { rem, styled } from "../styles/stitches.config";
-import { Card as AppCard } from "./common/common";
+import { rem, styled } from "../../styles/stitches.config";
+import { Card as AppCard } from "../common/common";
 
 type Props = {
   project: Project;
