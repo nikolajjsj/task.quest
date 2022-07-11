@@ -34,6 +34,11 @@ export const Button = styled("button", {
           background: "none rgba(0, 0, 0, 0.1)",
         },
       },
+      success: {
+        background: "$success",
+        color: "$white",
+        border: "1px solid $white",
+      },
       delete: {
         background: "$danger",
         color: "$white",
