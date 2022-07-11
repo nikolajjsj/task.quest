@@ -11,34 +11,47 @@ datasource db {
 }
 
 model Project {
-    id          String   @id @default(cuid())
+    id          String    @id @default(cuid())
     userId      String
-    user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
     title       String
     description String?
     color       String
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
     Todo        Todo[]
+    Comment     Comment[]
+}
+
+enum TodoStatus {
+    TODO
+    INPROGRESS
+    DONE
+    CANCELLED
 }
 
 model Todo {
-    id          String    @id @default(cuid())
+    id          String     @id @default(cuid())
     projectId   String?
-    project     Project?  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+    project     Project?   @relation(fields: [projectId], references: [id], onDelete: Cascade)
     userId      String
-    user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
     title       String
     description String?
     date        DateTime?
     color       String
     tags        String[]
-    createdAt   DateTime  @default(now())
-    updatedAt   DateTime  @updatedAt
+    status      TodoStatus @default(TODO)
+    priority    Boolean    @default(false)
+    pinned      Boolean    @default(false)
+    createdAt   DateTime   @default(now())
+    updatedAt   DateTime   @updatedAt
 }
 
 model Comment {
     id        String   @id @default(cuid())
+    projectId String
+    project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
     userId    String
     user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     comment   String
