@@ -1,21 +1,15 @@
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useReducer, useState } from "react";
 import { BsSkipEnd } from "react-icons/bs";
 import { AppTitle, Button as AppButton } from "../../components/common/common";
 import { styled } from "../../styles/stitches.config";
-
-const TICK_PERIOD_SEC = 1;
-const TICK_PERIOD_MILLI = TICK_PERIOD_SEC * 1000;
-const FIVE_MINUTES = 60 * 5;
-const FIFTEEN_MINUTES = FIVE_MINUTES * 3;
-const TWENTY_FIVE_MINUTES = FIVE_MINUTES * 5;
-
-type POMODORO_TYPE = "POMODORO" | "SMALL_BREAK" | "LONG_BREAK";
+import { formatTime } from "../../utils/time";
+import * as r from "./pomodoro.reducer";
 
 type TypeButtonProps = {
-  type: POMODORO_TYPE;
-  selectedType: POMODORO_TYPE;
-  updateType: (type: POMODORO_TYPE) => void;
+  type: r.POMODORO_TYPE;
+  selectedType: r.POMODORO_TYPE;
+  updateType: (type: r.POMODORO_TYPE) => void;
   children: React.ReactNode;
 };
 const TypeButton = ({
@@ -36,77 +30,32 @@ const TypeButton = ({
 };
 
 const Pomodoro = () => {
-  const [cycle, setCycle] = useState<number>(1);
-  const [type, setType] = useState<POMODORO_TYPE>("POMODORO");
-  const [tickerId, setTickerId] = useState<number | null>(null);
-  const [time, setTime] = useState<number>(TWENTY_FIVE_MINUTES);
+  const [state, dispatch] = useReducer(r.reducer, r.initialState);
+  const [time, setTime] = useState<number>(r.TWENTY_FIVE_MINUTES);
 
-  const nextCycle = () => {
-    stop();
-    setTime((_) => {
-      if (type === "POMODORO") {
-        if (cycle % 3 === 0) {
-          setType("LONG_BREAK");
-          return FIFTEEN_MINUTES;
-        } else {
-          setType("SMALL_BREAK");
-          return FIVE_MINUTES;
-        }
-      } else {
-        setCycle((c) => c + 1);
-        setType("POMODORO");
-        return TWENTY_FIVE_MINUTES;
-      }
-    });
-  };
-
-  const updateType = (t: POMODORO_TYPE) => {
-    console.log(t);
-    stop();
-    setType(t);
-    switch (t) {
-      case "POMODORO":
-        setTime(TWENTY_FIVE_MINUTES);
-        break;
-      case "SMALL_BREAK":
-        setTime(FIVE_MINUTES);
-        break;
-      case "LONG_BREAK":
-        setTime(FIFTEEN_MINUTES);
-        break;
-    }
-  };
-
-  const timer = () => {
-    if (time + TICK_PERIOD_SEC >= TICK_PERIOD_SEC) {
-      setTime((t) => Math.max(t - TICK_PERIOD_SEC, 0));
+  const timer = useCallback(() => {
+    if (time + r.TICK_PERIOD_SEC >= r.TICK_PERIOD_SEC) {
+      setTime((t) => Math.max(t - r.TICK_PERIOD_SEC, 0));
     } else {
-      nextCycle();
+      dispatch({ type: "NEXT_CYCLE", setTime });
     }
-  };
-
-  const formatTime = (time: number): string => {
-    const min = Math.floor(time / 60);
-    const sec = time - min * 60;
-    const secPrecision = sec.toFixed(0).padStart(2, "0");
-    return `${min}:${secPrecision}`;
-  };
+  }, [time]);
 
   const start = () => {
-    if (tickerId !== null) return;
-    setTickerId(window.setInterval(timer, TICK_PERIOD_MILLI));
+    if (state.tickerId !== undefined) return;
+    const tickerId = window.setInterval(timer, r.TICK_PERIOD_MILLI);
+    dispatch({ type: "UPDATE_TICKER_ID", tickerId });
   };
 
   const stop = () => {
-    setTickerId((t) => {
-      if (t !== null) window.clearInterval(t);
-      return null;
-    });
+    if (state.tickerId === undefined) return;
+    window.clearInterval(state.tickerId);
+    dispatch({ type: "UPDATE_TICKER_ID", tickerId: undefined });
   };
 
   useEffect(() => {
     return () => {
-      if (tickerId !== null) window.clearInterval(tickerId);
+      if (state.tickerId !== undefined) window.clearInterval(state.tickerId);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -118,33 +67,51 @@ const Pomodoro = () => {
       </Head>
 
       <s.Pane>
-        <AppTitle>Pomodoro - {`#${cycle}`}</AppTitle>
+        <AppTitle>Pomodoro - {`#${state.cycle}`}</AppTitle>
 
-        <s.Pomodoro
-          variant={type === "POMODORO" ? "pomodoro" : "smallBreak"}
-          ticking={tickerId !== null}
-        >
+        <s.Pomodoro variant={state.type} ticking={state.tickerId !== undefined}>
           <s.Controls>
             <TypeButton
               type="POMODORO"
-              selectedType={type}
-              updateType={updateType}
+              selectedType={state.type}
+              updateType={() => {
+                stop();
+                dispatch({
+                  type: "UPDATE_TYPE",
+                  pomodoroType: "POMODORO",
+                  setTime,
+                });
+              }}
             >
               Pomodoro
             </TypeButton>
 
             <TypeButton
               type="SMALL_BREAK"
-              selectedType={type}
-              updateType={updateType}
+              selectedType={state.type}
+              updateType={() => {
+                stop();
+                dispatch({
+                  type: "UPDATE_TYPE",
+                  pomodoroType: "SMALL_BREAK",
+                  setTime,
+                });
+              }}
             >
               Short Break
             </TypeButton>
 
             <TypeButton
               type="LONG_BREAK"
-              selectedType={type}
-              updateType={updateType}
+              selectedType={state.type}
+              updateType={() => {
+                stop();
+                dispatch({
+                  type: "UPDATE_TYPE",
+                  pomodoroType: "LONG_BREAK",
+                  setTime,
+                });
+              }}
             >
               Long Break
             </TypeButton>
@@ -153,16 +120,24 @@ const Pomodoro = () => {
         </s.Pomodoro>
 
         <s.Controls>
-          {tickerId === null && <s.Button onClick={start}>Start</s.Button>}
+          {state.tickerId === undefined && (
+            <s.Button onClick={start}>Start</s.Button>
+          )}
 
-          {tickerId !== null && (
+          {state.tickerId !== undefined && (
             <s.Button onClick={stop} variant="delete">
               Stop
             </s.Button>
           )}
 
-          {tickerId !== null && (
-            <s.Button onClick={nextCycle} variant="primary">
+          {state.tickerId !== undefined && (
+            <s.Button
+              onClick={() => {
+                stop();
+                dispatch({ type: "NEXT_CYCLE", setTime });
+              }}
+              variant="primary"
+            >
               <BsSkipEnd />
             </s.Button>
           )}
@@ -208,15 +183,15 @@ namespace s {
 
     variants: {
       variant: {
-        pomodoro: {
+        POMODORO: {
           background: "$danger",
           color: "$white",
         },
-        smallBreak: {
+        SMALL_BREAK: {
           background: "$primary-500",
           color: "$white",
         },
-        longBreak: {
+        LONG_BREAK: {
           background: "$secondary-500",
           color: "$white",
         },
