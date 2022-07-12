@@ -57,4 +57,17 @@ export const taskRouter = createRouter()
         data: { status: input.status },
       });
     },
+  })
+  .mutation("pin", {
+    input: z.object({
+      pinned: z.boolean(),
+      id: z.string(),
+    }),
+    async resolve({ ctx, input }) {
+      return await ctx.prisma.task.update({
+        where: { id: input.id },
+        select: { pinned: true },
+        data: { pinned: input.pinned },
+      });
+    },
   });
