@@ -33,11 +33,15 @@ export const ProjectNavbar = ({ projects }: Props) => {
 namespace s {
   export const ProjectNavbar = styled("div", {
     width: rem(150),
-    display: "flex",
+    display: "none",
     flexDirection: "column",
     alignItems: "stretch",
     borderRight: "1px solid $black",
     padding: "$4",
     gap: "$2",
+
+    "@sm": {
+      display: "flex",
+    },
   });
 }
