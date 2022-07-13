@@ -7,7 +7,10 @@ export const taskRouter = createRouter()
     async resolve({ ctx, input: id }) {
       const userId = ctx.session?.id as string;
       if (userId == null) return;
-      return await ctx.prisma.task.findFirst({ where: { id, userId } });
+      return await ctx.prisma.task.findFirst({
+        where: { id, userId },
+        include: { user: true },
+      });
     },
   })
   .query("getAll", {
