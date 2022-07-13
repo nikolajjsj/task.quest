@@ -2,55 +2,34 @@ import { Project, Task } from "@prisma/client";
 import { RiTodoFill, RiDeleteBin7Fill } from "react-icons/ri";
 import { FaCheck } from "react-icons/fa";
 import { TiPin, TiPinOutline } from "react-icons/ti";
-import { useQueryClient } from "react-query";
 import { rem, styled } from "../../styles/stitches.config";
-import { trpc } from "../../utils/trpc";
 import { Card as AppCard } from "../common/card";
 import { Flex } from "../common/common";
 import { Spinner } from "../common/spinner";
 import { Description, Title } from "../common/text";
 import { Spacer } from "../common/spacer";
+import { useRouter } from "next/router";
+import { trpc } from "../../utils/trpc";
+import { MouseEventHandler } from "react";
 
 type Props = {
   project?: Project;
   task: Task;
 };
 export const TaskCard = ({ task, project }: Props) => {
-  const { invalidateQueries } = useQueryClient();
-  const { mutate: remove, isLoading } = trpc.useMutation(["task.delete"], {
-    onSuccess() {
-      invalidateCache();
-    },
-  });
-  const { mutate: toggle, isLoading: toggleLoading } = trpc.useMutation(
-    ["task.toggle"],
-    {
-      onSuccess() {
-        invalidateCache();
-      },
-    },
-  );
-  const { mutate: pin, isLoading: pinLoading } = trpc.useMutation(
-    ["task.pin"],
-    {
-      onSuccess() {
-        invalidateCache();
-      },
-    },
-  );
+  const router = useRouter();
+  const mutateTask = useMutateTask(project?.id);
+  const deleteTask = useDeleteTask(project?.id);
 
-  const invalidateCache = () => {
-    if (project?.id !== undefined) {
-      invalidateQueries(["project.get", { id: project?.id }]);
-    } else {
-      invalidateQueries(["task.getAll"]);
-    }
-  };
-
-  const loading = isLoading || pinLoading || toggleLoading;
+  const loading = mutateTask.isLoading || deleteTask.isLoading;
 
   return (
-    <s.Card>
+    <s.Card
+      onClick={(e) => {
+        e.stopPropagation();
+        router.push(`tasks/${task.id}`);
+      }}
+    >
       <s.Header>
         <Flex gap={2} css={{ flex: "auto", alignItems: "center" }}>
           {loading ? (
@@ -64,7 +43,10 @@ export const TaskCard = ({ task, project }: Props) => {
 
           <s.Icon
             as={task.pinned ? TiPin : TiPinOutline}
-            onClick={() => pin({ id: task.id, pinned: !task.pinned })}
+            onClick={(e: any) => {
+              e.stopPropagation();
+              mutateTask.mutate({ id: task.id, pinned: !task.pinned });
+            }}
           />
         </Flex>
       </s.Header>
@@ -75,22 +57,53 @@ export const TaskCard = ({ task, project }: Props) => {
         <s.Icon
           as={FaCheck}
           color={task.status !== "DONE" ? "green" : "yellow"}
-          onClick={() =>
-            toggle({
+          onClick={(e: any) => {
+            e.stopPropagation();
+            mutateTask.mutate({
               id: task.id,
               status: task.status === "DONE" ? "TODO" : "DONE",
-            })
-          }
+            });
+          }}
         />
 
         <s.Icon
           as={RiDeleteBin7Fill}
           color="red"
-          onClick={() => remove(task.id)}
+          onClick={(e: any) => {
+            e.stopPropagation();
+            deleteTask.mutate(task.id);
+          }}
         />
       </s.Actions>
     </s.Card>
   );
+};
+
+const useMutateTask = (projectId?: string) => {
+  const utils = trpc.useContext();
+  return trpc.useMutation(["task.update"], {
+    onSuccess: () => {
+      if (projectId !== undefined) {
+        utils.invalidateQueries(["project.get", { id: projectId }]);
+      } else {
+        utils.invalidateQueries(["task.getAll"]);
+      }
+    },
+  });
+};
+
+const useDeleteTask = (projectId?: string) => {
+  const utils = trpc.useContext();
+  return trpc.useMutation(["task.delete"], {
+    onSuccess: (data, variables) => {
+      console.log({ data, variables });
+      if (projectId !== undefined) {
+        utils.invalidateQueries(["project.get", { id: projectId }]);
+      } else {
+        utils.invalidateQueries(["task.getAll"]);
+      }
+    },
+  });
 };
 
 namespace s {
@@ -98,6 +111,11 @@ namespace s {
     margin: "0 auto",
     position: "relative",
     minHeight: rem(150),
+    cursor: "pointer",
+
+    "&:hover": {
+      background: "none rgba(0, 0, 0, 0.05)",
+    },
   });
 
   export const Header = styled("header", {

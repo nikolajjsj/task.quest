@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FaUserCircle } from "react-icons/fa";
+import { FaUserCircle, FaTasks } from "react-icons/fa";
 import { HiHome, HiTemplate } from "react-icons/hi";
 import { IoIosSettings } from "react-icons/io";
 import { RiTimerFlashLine } from "react-icons/ri";
@@ -19,6 +19,12 @@ export const Navbar = () => {
       <Link href="/projects">
         <Button variant="navbar" size="sm">
           <s.Icon as={HiTemplate} />
+        </Button>
+      </Link>
+
+      <Link href="/tasks">
+        <Button variant="navbar" size="sm">
+          <s.Icon as={FaTasks} />
         </Button>
       </Link>
 

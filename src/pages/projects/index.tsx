@@ -6,24 +6,14 @@ import { ProjectDialog } from "../../components/app/ProjectDialog";
 import { ProjectCard } from "../../components/app/ProjectCard";
 import { SCREEN_XL, styled } from "../../styles/stitches.config";
 import { trpc } from "../../utils/trpc";
-import { TaskCard } from "../../components/app/TaskCard";
-import { TaskDialog } from "../../components/app/TaskDialog";
 import { AppTitle } from "../../components/common/text";
 import { Button } from "../../components/common/button";
-import { Spacer } from "../../components/common/spacer";
 
 const Project: NextPage = () => {
   const [projectDialog, setProjectDialog] = useState<boolean>(false);
-  const [taskDialog, setTaskDialog] = useState<boolean>(false);
+  const { data, isLoading } = trpc.useQuery(["project.getAll"]);
 
-  const { data: projects, isLoading: projectsLoading } = trpc.useQuery([
-    "project.getAll",
-  ]);
-  const { data: tasks, isLoading: tasksLoading } = trpc.useQuery([
-    "task.getAll",
-  ]);
-
-  if (projectsLoading || tasksLoading) return <Spinner size="large" center />;
+  if (isLoading) return <Spinner size="large" center />;
 
   return (
     <>
@@ -31,32 +21,19 @@ const Project: NextPage = () => {
         <AppTitle>Projects</AppTitle>
 
         <s.Grid>
-          {projects?.map((project) => (
+          {data?.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
-          <Button onClick={() => setProjectDialog(true)}>
-            <BiBookAdd size={30} />
-          </Button>
         </s.Grid>
 
-        <Spacer y={8} />
-
-        <AppTitle>Orphaned Tasks</AppTitle>
-
-        <s.Grid>
-          {tasks?.map((task) => (
-            <TaskCard key={task.id} task={task} />
-          ))}
-          <Button onClick={() => setTaskDialog(true)}>
-            <BiBookAdd size={30} />
-          </Button>
-        </s.Grid>
+        <Button onClick={() => setProjectDialog(true)}>
+          <BiBookAdd size={30} />
+        </Button>
       </s.Home>
 
       {projectDialog && (
         <ProjectDialog onClose={() => setProjectDialog(false)} />
       )}
-      {taskDialog && <TaskDialog onClose={() => setTaskDialog(false)} />}
     </>
   );
 };
