@@ -10,7 +10,6 @@ import { Description, Title } from "../common/text";
 import { Spacer } from "../common/spacer";
 import { useRouter } from "next/router";
 import { trpc } from "../../utils/trpc";
-import { MouseEventHandler } from "react";
 
 type Props = {
   project?: Project;
