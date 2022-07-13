@@ -7,12 +7,14 @@ import { RouteGuard } from "../hooks/routeGuard";
 import type { AppRouter } from "../server/router";
 import Head from "next/head";
 import "../styles/globals.css";
-import { styled } from "../styles/stitches.config";
+import { globalStyles, styled } from "../styles/stitches.config";
 
 const MyApp: AppType = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
+  globalStyles();
+
   return (
     <SessionProvider session={session}>
       <Head>
@@ -67,9 +69,8 @@ export default withTRPC<AppRouter>({
 
 namespace s {
   export const App = styled("main", {
-    height: "100vh",
-    minHeight: "-webkit-fill-available",
-    width: "100vw",
+    height: "100%",
+    width: "100%",
     position: "relative",
     display: "flex",
     background: "$white",
