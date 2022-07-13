@@ -9,7 +9,7 @@ export const Button = styled("button", {
   height: "fit-content",
   borderRadius: "$lg",
   cursor: "pointer",
-  boxShadow: "$lg",
+  boxShadow: "$sm",
   fontSize: "$base",
   fontWeight: 600,
 
