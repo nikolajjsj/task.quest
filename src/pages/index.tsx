@@ -1,28 +1,37 @@
 import type { NextPage } from "next";
 import { FeatureCard } from "../components/app/FeatureCard";
+import { Spacer } from "../components/common/spacer";
 import { AppTitle, Span } from "../components/common/text";
 import { SCREEN_XL, styled } from "../styles/stitches.config";
 
 const Home: NextPage = () => {
   return (
     <s.Home>
+      <Spacer y={12} />
+
       <AppTitle>
-        Task<Span css={{ color: "Grey" }}>.query</Span>
+        Task<Span css={{ color: "Grey" }}>.quests</Span>
       </AppTitle>
+
+      <Spacer y={12} />
 
       <s.Features>
         <FeatureCard
           href="/pomodoro"
           title="Pomodoro"
-          backgroundColor="#2196f3"
+          backgroundColor="#00CECB"
         />
 
         <FeatureCard
           href="/projects"
           title="Projects"
-          backgroundColor="#009688"
+          backgroundColor="#FF5E5B"
         />
+
+        <FeatureCard href="/tasks" title="Tasks" backgroundColor="#457b9d" />
       </s.Features>
+
+      <Spacer y={40} />
     </s.Home>
   );
 };
@@ -55,7 +64,7 @@ namespace s {
 
     "@lg": {
       width: "80%",
-      // gridTemplateColumns: "1fr 1fr 1fr",
+      gridTemplateColumns: "1fr 1fr 1fr",
     },
   });
 }
