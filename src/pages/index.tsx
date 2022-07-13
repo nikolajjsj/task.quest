@@ -10,7 +10,7 @@ const Home: NextPage = () => {
       <Spacer y={12} />
 
       <AppTitle>
-        Task<Span css={{ color: "Grey" }}>.quests</Span>
+        Task<Span css={{ color: "Grey" }}>.quest</Span>
       </AppTitle>
 
       <Spacer y={12} />
