@@ -4,11 +4,7 @@ import { BsSkipEnd } from "react-icons/bs";
 import { formatTime } from "../../utils/time";
 import * as r from "../../hooks/reducers/pomodoro.reducer";
 import { AppTitle } from "../../components/common/text";
-import { Button } from "../../components/common/button";
-
-const BUTTON_STYLE = "text-xs font-bold uppercase md:text-2xl";
-const RESET =
-  "shadow-none border border-transparent text-xs bg-transparent md:text-md";
+import { Button, GhostButton } from "../../components/common/button";
 
 type TypeButtonProps = {
   type: r.POMODORO_TYPE;
@@ -22,14 +18,15 @@ const TypeButton = ({
   updateType,
   children,
 }: TypeButtonProps) => {
-  const bg = type === selectedType ? "" : "brightness-50";
   return (
-    <Button
-      className={RESET + BUTTON_STYLE + bg}
+    <GhostButton
+      className={`bg-transparent border-none font-bold uppercase text-sm sm:text-lg md:text-xl ${
+        type === selectedType ? "bg-white text-black" : ""
+      }`}
       onClick={() => updateType(type)}
     >
       {children}
-    </Button>
+    </GhostButton>
   );
 };
 
@@ -84,7 +81,7 @@ const Pomodoro = () => {
               : "bg-green-400 text-white"
           }`}
         >
-          <div className="flex flex-col items-center gap-4 sm:flex-row">
+          <div className="flex flex-col items-center gap-2 sm:flex-row">
             <TypeButton
               type="POMODORO"
               selectedType={state.type}
@@ -131,7 +128,7 @@ const Pomodoro = () => {
             </TypeButton>
           </div>
 
-          <div className="text-5xl font-bold tracking-widest xm:text-9xl xs:text-7xl">
+          <div className="text-5xl font-bold tracking-widest sm:text-9xl xs:text-7xl">
             {formatTime(time)}
           </div>
         </div>
