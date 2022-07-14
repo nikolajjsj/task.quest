@@ -141,11 +141,7 @@ const Pomodoro = () => {
             <Button onClick={start}>Start</Button>
           )}
 
-          {state.tickerId !== undefined && (
-            <Button onClick={stop} variant="delete">
-              Stop
-            </Button>
-          )}
+          {state.tickerId !== undefined && <Button onClick={stop}>Stop</Button>}
 
           {state.tickerId !== undefined && (
             <Button
@@ -153,7 +149,6 @@ const Pomodoro = () => {
                 stop();
                 dispatch({ type: "NEXT_CYCLE", setTime });
               }}
-              variant="primary"
             >
               <BsSkipEnd />
             </Button>

@@ -22,9 +22,7 @@ export default function SignOut() {
 
       {email != null && <p className="text-xl">{email}</p>}
 
-      <Button variant="white" onClick={() => signOut()}>
-        Sign Out
-      </Button>
+      <Button onClick={() => signOut()}>Sign Out</Button>
     </div>
   );
 }

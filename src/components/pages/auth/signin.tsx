@@ -13,11 +13,7 @@ export default function SignIn({ providers }: Props) {
     <div className="flex flex-col justify-center items-center flex-auto">
       <div className="flex flex-col gap-4">
         {Object.values(providers ?? {}).map((provider) => (
-          <Button
-            key={provider.name}
-            variant="white"
-            onClick={() => signIn(provider.id)}
-          >
+          <Button key={provider.name} onClick={() => signIn(provider.id)}>
             Sign in with {provider.name}
           </Button>
         ))}
