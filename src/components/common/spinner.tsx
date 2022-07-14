@@ -4,7 +4,7 @@ type Props = {
 export const Spinner = ({ center }: Props) => {
   return (
     <svg
-      className={`animate-spin -ml-1 mr-3 h-5 w-5 text-white ${
+      className={`animate-spin h-5 w-5 text-white ${
         center
           ? "absolute top-1/2 left-1/2 transform-translate-x-1/2 transform-translate-y-1/2"
           : ""
