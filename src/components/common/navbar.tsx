@@ -14,6 +14,8 @@ const inactive = "text-slate-500";
 export const Navbar = () => {
   const router = useRouter();
 
+  console.log(router.pathname);
+
   return (
     <nav className="sticky top-0 bottom-0 left-0 flex flex-col p-2 gap-6 md:p-3 border">
       <Link href="/">
@@ -30,7 +32,7 @@ export const Navbar = () => {
         <div>
           <HiTemplate
             className={`${iconStyle} ${
-              router.pathname === "/projects" ? active : inactive
+              router.pathname.startsWith("/projects") ? active : inactive
             }`}
           />
         </div>
@@ -40,7 +42,7 @@ export const Navbar = () => {
         <div>
           <FaTasks
             className={`${iconStyle} ${
-              router.pathname === "/tasks" ? active : inactive
+              router.pathname.startsWith("/tasks") ? active : inactive
             }`}
           />
         </div>
@@ -50,7 +52,7 @@ export const Navbar = () => {
         <div>
           <RiTimerFlashLine
             className={`${iconStyle} ${
-              router.pathname === "/pomodoro" ? active : inactive
+              router.pathname.startsWith("/pomodoro") ? active : inactive
             }`}
           />
         </div>
@@ -62,7 +64,7 @@ export const Navbar = () => {
         <div>
           <FaUserCircle
             className={`${iconStyle} ${
-              router.pathname === "/auth" ? active : inactive
+              router.pathname.startsWith("/auth") ? active : inactive
             }`}
           />
         </div>
@@ -72,7 +74,7 @@ export const Navbar = () => {
         <div>
           <IoIosSettings
             className={`${iconStyle} ${
-              router.pathname === "/settings" ? active : inactive
+              router.pathname.startsWith("/settings") ? active : inactive
             }`}
           />
         </div>
