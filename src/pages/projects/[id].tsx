@@ -25,14 +25,14 @@ const useDeleteProject = () => {
 
 const Project: NextPage = () => {
   const router = useRouter();
-  const { slug } = router.query;
+  const { id } = router.query;
   const [taskDialog, setTaskDialog] = useState<boolean>(false);
 
   const deleteMutation = useDeleteProject();
   const { data: projects } = trpc.useQuery(["project.getAll"]);
   const { data: project, isLoading } = trpc.useQuery([
     "project.get",
-    { id: slug as string },
+    { id: id as string },
   ]);
 
   if (deleteMutation.isLoading) return <Spinner center />;
