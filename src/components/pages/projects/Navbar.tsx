@@ -1,27 +1,35 @@
 import { Project } from "@prisma/client";
 import Link from "next/link";
 import { useState } from "react";
-import { rem, styled } from "../../../styles/stitches.config";
-import { ProjectDialog } from "../../app/ProjectDialog";
+import { ProjectDialog } from "../../common/project-dialog";
 import { Button } from "../../common/button";
+import { useRouter } from "next/router";
 
 type Props = {
   projects?: Project[];
 };
 export const ProjectNavbar = ({ projects }: Props) => {
+  const router = useRouter();
+  const { slug } = router.query;
   const [projectDialog, setProjectDialog] = useState<boolean>(false);
 
   return (
     <>
-      <s.ProjectNavbar>
+      <div className="w-48 hidden flex-col items-stretch border-r p-4 gap-6 sm:flex">
         {projects?.map((p) => (
           <Link key={p.id} href={`/projects/${p.id}`}>
-            <Button variant="white">{p.title}</Button>
+            <div
+              className={`truncate font-bold text-slate-500 cursor-pointer ${
+                slug === p.id ? "text-indigo-700" : ""
+              }`}
+            >
+              {p.title}
+            </div>
           </Link>
         ))}
 
-        <Button onClick={() => setProjectDialog(true)}>Add Project</Button>
-      </s.ProjectNavbar>
+        <Button onClick={() => setProjectDialog(true)}>+</Button>
+      </div>
 
       {projectDialog && (
         <ProjectDialog onClose={() => setProjectDialog(false)} />
@@ -29,19 +37,3 @@ export const ProjectNavbar = ({ projects }: Props) => {
     </>
   );
 };
-
-namespace s {
-  export const ProjectNavbar = styled("div", {
-    width: rem(150),
-    display: "none",
-    flexDirection: "column",
-    alignItems: "stretch",
-    borderRight: "1px solid $black",
-    padding: "$4",
-    gap: "$2",
-
-    "@sm": {
-      display: "flex",
-    },
-  });
-}

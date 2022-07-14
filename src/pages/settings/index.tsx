@@ -1,21 +1,8 @@
-import { styled } from "../../styles/stitches.config";
-
 const Settings = () => {
   return (
-    <s.Settings>
+    <div className="flex-auto flex flex-col justify-center items-center px-4">
       <p>Settings</p>
-    </s.Settings>
+    </div>
   );
 };
 export default Settings;
-
-namespace s {
-  export const Settings = styled("div", {
-    flex: "auto",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingInline: "$4",
-  });
-}

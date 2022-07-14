@@ -2,13 +2,14 @@ import type { NextPage } from "next";
 import { useMemo, useState } from "react";
 import { BiBookAdd } from "react-icons/bi";
 import { Spinner } from "../../components/common/spinner";
-import { SCREEN_LG, SCREEN_XL, styled } from "../../styles/stitches.config";
 import { trpc } from "../../utils/trpc";
-import { TaskCard } from "../../components/app/TaskCard";
-import { TaskDialog } from "../../components/app/TaskDialog";
+import { TaskCard } from "../../components/common/task-card";
+import { TaskDialog } from "../../components/common/task-dialog";
 import { AppTitle } from "../../components/common/text";
 import { Button } from "../../components/common/button";
-import { Spacer } from "../../components/common/spacer";
+
+const tasksStyle =
+  "w-full max-w-11/12 flex flex-wrap justify-center gap-4 md:max-w-4/5 lg:max-w-[1000px]";
 
 const Project: NextPage = () => {
   const [taskDialog, setTaskDialog] = useState<boolean>(false);
@@ -17,71 +18,36 @@ const Project: NextPage = () => {
   const pinnedTasks = useMemo(() => data?.filter((t) => t.pinned), [data]);
   const otherTasks = useMemo(() => data?.filter((t) => !t.pinned), [data]);
 
-  if (isLoading) return <Spinner size="large" center />;
+  if (isLoading) return <Spinner center />;
 
   return (
     <>
-      <s.Home>
+      <div className="flex-auto overflow-auto flex flex-col items-center gap-8 px-2 py-4 md:py-8">
         <AppTitle>Pinned Tasks</AppTitle>
 
-        <s.Tasks>
+        <div className={tasksStyle}>
           {pinnedTasks?.map((task) => (
             <TaskCard key={task.id} task={task} />
           ))}
-        </s.Tasks>
+        </div>
 
-        <Spacer y={10} />
+        <div className="h-10"></div>
 
         <AppTitle>Tasks</AppTitle>
 
-        <s.Tasks>
+        <div className={tasksStyle}>
           {otherTasks?.map((task) => (
             <TaskCard key={task.id} task={task} />
           ))}
-        </s.Tasks>
+        </div>
 
         <Button onClick={() => setTaskDialog(true)}>
           <BiBookAdd size={30} />
         </Button>
-      </s.Home>
+      </div>
 
       {taskDialog && <TaskDialog onClose={() => setTaskDialog(false)} />}
     </>
   );
 };
 export default Project;
-
-namespace s {
-  export const Home = styled("div", {
-    flex: "auto",
-    overflow: "auto",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    gap: "$8",
-    paddingBlock: "$4",
-
-    "@md": {
-      paddingBlock: "$8",
-    },
-  });
-
-  export const Tasks = styled("div", {
-    maxWidth: "95%",
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    gap: "$4",
-
-    "& > *": {
-      width: 400,
-    },
-
-    "@md": {
-      maxWidth: "80%",
-    },
-    "@lg": {
-      maxWidth: SCREEN_LG,
-    },
-  });
-}

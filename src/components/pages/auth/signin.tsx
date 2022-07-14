@@ -1,6 +1,5 @@
 import { BuiltInProviderType } from "next-auth/providers";
 import { ClientSafeProvider, LiteralUnion, signIn } from "next-auth/react";
-import { styled } from "../../../styles/stitches.config";
 import { Button } from "../../common/button";
 
 type Props = {
@@ -11,8 +10,8 @@ type Props = {
 };
 export default function SignIn({ providers }: Props) {
   return (
-    <s.Signin>
-      <s.SignInButtons>
+    <div className="flex flex-col justify-center items-center flex-auto">
+      <div className="flex flex-col gap-4">
         {Object.values(providers ?? {}).map((provider) => (
           <Button
             key={provider.name}
@@ -22,23 +21,7 @@ export default function SignIn({ providers }: Props) {
             Sign in with {provider.name}
           </Button>
         ))}
-      </s.SignInButtons>
-    </s.Signin>
+      </div>
+    </div>
   );
-}
-
-namespace s {
-  export const Signin = styled("div", {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    flex: "auto",
-  });
-
-  export const SignInButtons = styled("div", {
-    display: "flex",
-    flexDirection: "column",
-    gap: "$4",
-  });
 }

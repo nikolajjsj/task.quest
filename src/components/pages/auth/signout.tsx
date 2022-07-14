@@ -1,6 +1,5 @@
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
-import { styled } from "../../../styles/stitches.config";
 import { Button } from "../../common/button";
 import { Title } from "../../common/text";
 
@@ -9,10 +8,10 @@ export default function SignOut() {
   const { name, image, email } = session!.user!;
 
   return (
-    <s.Login>
+    <div className="flex-auto flex flex-col p-4 justify-center items-center gap-4">
       {image != null && (
-        <s.Image
-          as={Image}
+        <Image
+          className="rounded-full"
           src={image}
           alt="Profile image"
           height={200}
@@ -21,31 +20,11 @@ export default function SignOut() {
       )}
       {name != null && <Title>{name}</Title>}
 
-      {email != null && <s.Subtitle>{email}</s.Subtitle>}
+      {email != null && <p className="text-xl">{email}</p>}
 
       <Button variant="white" onClick={() => signOut()}>
         Sign Out
       </Button>
-    </s.Login>
+    </div>
   );
-}
-
-namespace s {
-  export const Login = styled("div", {
-    flex: "auto",
-    display: "flex",
-    flexDirection: "column",
-    padding: "$4",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: "$4",
-  });
-
-  export const Subtitle = styled("p", {
-    fontSize: "$xl",
-  });
-
-  export const Image = styled("img", {
-    borderRadius: "50%",
-  });
 }

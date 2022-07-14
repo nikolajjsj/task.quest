@@ -1,12 +1,10 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { BiAddToQueue } from "react-icons/bi";
 import { Spinner } from "../../components/common/spinner";
-import { TaskDialog } from "../../components/app/TaskDialog";
+import { TaskDialog } from "../../components/common/task-dialog";
 import { ProjectNavbar } from "../../components/pages/projects/Navbar";
-import { TaskCard } from "../../components/app/TaskCard";
-import { rem, styled } from "../../styles/stitches.config";
+import { TaskCard } from "../../components/common/task-card";
 import { trpc } from "../../utils/trpc";
 import { AppTitle } from "../../components/common/text";
 import { Button } from "../../components/common/button";
@@ -24,30 +22,28 @@ const Project: NextPage = () => {
   const [taskDialog, setTaskDialog] = useState<boolean>(false);
 
   return (
-    <s.Home>
+    <div className="flex-auto flex">
       <ProjectNavbar projects={projects} />
 
-      <s.HomeContent>
+      <div className="relative flex-auto w-full flex flex-col items-center overflow-auto p-4 gap-4">
         {isLoading ? (
-          <Spinner />
+          <Spinner center />
         ) : (
           <>
             <AppTitle>{project?.title}</AppTitle>
 
-            <Button onClick={() => setTaskDialog(true)}>
-              Add Task <BiAddToQueue size={30} />
-            </Button>
-
             {project == null && <p>No Tasks</p>}
 
-            <s.Tasks>
+            <div className="w-full flex flex-col items-center gap-4">
               {project?.Task?.map((task) => (
                 <TaskCard key={task.id} task={task} project={project} />
               ))}
-            </s.Tasks>
+            </div>
+
+            <Button onClick={() => setTaskDialog(true)}>+</Button>
           </>
         )}
-      </s.HomeContent>
+      </div>
 
       {taskDialog && (
         <TaskDialog
@@ -55,41 +51,7 @@ const Project: NextPage = () => {
           onClose={() => setTaskDialog(false)}
         />
       )}
-    </s.Home>
+    </div>
   );
 };
 export default Project;
-
-namespace s {
-  export const Home = styled("div", {
-    flex: "auto",
-    display: "flex",
-  });
-
-  export const HomeNavbar = styled("div", {
-    width: rem(150),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "stretch",
-    borderRight: "1px solid $black",
-    padding: "$2",
-    gap: "$2",
-  });
-
-  export const HomeContent = styled("div", {
-    flex: "auto",
-    display: "flex",
-    flexDirection: "column",
-    overflow: "auto",
-    padding: "$4",
-    alignItems: "center",
-    gap: "$4",
-  });
-
-  export const Tasks = styled("div", {
-    width: "100%",
-    display: "flex",
-    flexDirection: "column",
-    gap: "$4",
-  });
-}

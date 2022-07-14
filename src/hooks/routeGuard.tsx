@@ -19,7 +19,7 @@ export const RouteGuard = ({ children }: Props) => {
   }, [router.asPath]);
 
   if (status === "loading") {
-    return <Spinner size="large" color="black" center />;
+    return <Spinner center />;
   }
 
   return children;
