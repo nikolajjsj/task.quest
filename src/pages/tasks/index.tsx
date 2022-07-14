@@ -8,7 +8,7 @@ import { AppTitle } from "../../components/common/text";
 import { GhostButton } from "../../components/common/button";
 import { TaskList } from "../../components/common/task-list";
 
-const Project: NextPage = () => {
+const Tasks: NextPage = () => {
   const [taskDialog, setTaskDialog] = useState<boolean>(false);
 
   const { data, isLoading } = trpc.useQuery(["task.getAll"]);
@@ -36,4 +36,4 @@ const Project: NextPage = () => {
     </>
   );
 };
-export default Project;
+export default Tasks;
