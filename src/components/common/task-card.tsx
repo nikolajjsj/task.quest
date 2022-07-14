@@ -21,7 +21,7 @@ export const TaskCard = ({ task, project }: Props) => {
 
   return (
     <div
-      className="relative flex-auto w-full max-w-md shadow-md rounded-lg border border-slate-500 p-6 cursor-pointer"
+      className="relative flex-auto w-full max-w-md shadow-md border rounded-lg p-6 cursor-pointer"
       onClick={(e: any) => {
         e.stopPropagation();
         router.push(`/tasks/${task.id}`);

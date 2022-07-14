@@ -11,7 +11,7 @@ export const ProjectCard = ({ project }: Props) => {
 
   return (
     <Link href={`projects/${project.id}`}>
-      <div className="relative flex-auto w-full max-w-md shadow-md rounded-lg border border-slate-500 p-6 cursor-pointer">
+      <div className="relative flex-auto w-full max-w-md shadow-md rounded-lg border p-6 cursor-pointer">
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-2">
             <GiWhiteBook size={25} color={project.color} opacity={0.5} />
