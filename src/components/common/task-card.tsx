@@ -29,11 +29,7 @@ export const TaskCard = ({ task, project }: Props) => {
     >
       <div className="flex items-center justify-between">
         <div className="gap-2 flex-auto flex items-center">
-          {loading ? (
-            <Spinner center />
-          ) : (
-            <RiTodoFill size={20} color={task.color} />
-          )}
+          {loading ? <Spinner /> : <RiTodoFill size={20} color={task.color} />}
 
           <Title>{task.title}</Title>
 
