@@ -64,11 +64,11 @@ const Project: NextPage = () => {
             className="w-full max-w-md mx-auto flex items-center justify-between p-2 cursor-pointer"
             onClick={() => setShowDone((val) => !val)}
           >
-            <Title>Finished Tasks</Title>
+            <Title className="text-gray-500">Finished Tasks</Title>
             {showDone ? (
-              <BsArrowUpShort size={30} />
+              <BsArrowUpShort size={30} className="text-gray-500" />
             ) : (
-              <BsArrowDownShort size={30} />
+              <BsArrowDownShort size={30} className="text-gray-500" />
             )}
           </div>
 
