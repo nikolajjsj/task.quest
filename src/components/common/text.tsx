@@ -38,3 +38,12 @@ export const Error = ({ children, ...props }: ErrorProps) => {
     </p>
   );
 };
+
+type EmptyMessageProps = React.HTMLProps<HTMLParagraphElement>;
+export const EmptyMessage = ({ children, ...props }: EmptyMessageProps) => {
+  return (
+    <p {...props} className="text-gray-500 font-semibold text-lg py-12">
+      {children}
+    </p>
+  );
+};
