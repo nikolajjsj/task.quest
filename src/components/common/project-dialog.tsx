@@ -70,7 +70,7 @@ export const ProjectDialog = ({ onClose }: { onClose: () => void }) => {
 
         <d.DialogFooter>
           <Button type="submit">
-            {isLoading ? <Spinner center /> : "Save"}
+            {isLoading ? <Spinner light /> : "Save"}
           </Button>
         </d.DialogFooter>
       </input.Form>
