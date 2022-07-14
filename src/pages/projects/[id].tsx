@@ -6,10 +6,10 @@ import { useState } from "react";
 import { Spinner } from "../../components/common/spinner";
 import { TaskDialog } from "../../components/common/task-dialog";
 import { ProjectNavbar } from "../../components/pages/projects/Navbar";
-import { TaskCard } from "../../components/common/task-card";
 import { trpc } from "../../utils/trpc";
-import { AppTitle, EmptyMessage } from "../../components/common/text";
+import { AppTitle } from "../../components/common/text";
 import { GhostButton } from "../../components/common/button";
+import { TaskList } from "../../components/common/task-list";
 
 const useDeleteProject = () => {
   const utils = trpc.useContext();
@@ -62,15 +62,7 @@ const Project: NextPage = () => {
 
             <hr className="w-full border" />
 
-            {project?.Task.length === 0 && (
-              <EmptyMessage>No Tasks...</EmptyMessage>
-            )}
-
-            <div className="w-full flex flex-col items-center gap-4">
-              {project?.Task?.map((task) => (
-                <TaskCard key={task.id} task={task} project={project} />
-              ))}
-            </div>
+            <TaskList tasks={project?.Task} />
           </>
         )}
       </div>
