@@ -1,6 +1,5 @@
 import type { NextPage } from "next";
 import { useState } from "react";
-import { BiBookAdd } from "react-icons/bi";
 import { Spinner } from "../../components/common/spinner";
 import { ProjectDialog } from "../../components/common/project-dialog";
 import { ProjectCard } from "../../components/common/project-card";
@@ -17,7 +16,7 @@ const Project: NextPage = () => {
 
   return (
     <>
-      <div className="flex-auto overflow-auto flex flex-col items-center gap-8 px-4 md:px-8">
+      <div className="flex-auto overflow-auto flex flex-col items-center gap-8 py-4 md:py-8">
         <AppTitle>Projects</AppTitle>
 
         <div
@@ -28,9 +27,7 @@ const Project: NextPage = () => {
           ))}
         </div>
 
-        <Button onClick={() => setProjectDialog(true)}>
-          <BiBookAdd size={30} />
-        </Button>
+        <Button onClick={() => setProjectDialog(true)}>+</Button>
       </div>
 
       {projectDialog && (

@@ -1,7 +1,6 @@
 import { Project } from "@prisma/client";
 import Link from "next/link";
 import { GiWhiteBook } from "react-icons/gi";
-import { Card } from "./card";
 import { Description, Title } from "./text";
 
 type Props = {
@@ -12,7 +11,7 @@ export const ProjectCard = ({ project }: Props) => {
 
   return (
     <Link href={`projects/${project.id}`}>
-      <Card className="relative p-6 cursor-pointer">
+      <div className="relative flex-auto w-full max-w-md rounded-lg border border-slate-500 p-6 cursor-pointer">
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-2">
             <GiWhiteBook size={25} color={project.color} opacity={0.5} />
@@ -26,7 +25,7 @@ export const ProjectCard = ({ project }: Props) => {
         </div>
 
         <Description>{project.description}</Description>
-      </Card>
+      </div>
     </Link>
   );
 };

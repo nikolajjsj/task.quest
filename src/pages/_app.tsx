@@ -18,7 +18,7 @@ const MyApp: AppType = ({
         <title>Task.quest</title>
       </Head>
 
-      <main className="h-full w-full relative flex bg-slate-100 text-black duration-200">
+      <main className="h-full w-full relative flex bg-white text-black duration-200">
         <Navbar />
 
         <RouteGuard>

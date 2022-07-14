@@ -28,7 +28,7 @@ export function Dialog({
 
   return ReactDOM.createPortal(
     <div
-      className="fixed inset-0 flex flex-col justify-center items-center bg-white backdrop-blur-lg"
+      className="fixed inset-0 flex flex-col justify-center items-center backdrop-blur-2xl"
       onClick={
         closeOnClickOutside && onClose
           ? (e) => {
@@ -38,7 +38,7 @@ export function Dialog({
       }
     >
       <div
-        className="flex flex-col overflow-hidden shadow-lg rounded-lg bg-white text-black"
+        className="flex flex-col w-full max-w-lg overflow-hidden shadow-lg rounded-lg bg-white text-black"
         ref={dialogRef}
         tabIndex={-1}
         onKeyDown={
@@ -65,7 +65,7 @@ export const DialogContent = ({ children, ...props }: DialogContentProps) => {
   return (
     <div
       {...props}
-      className="flex-auto px-5 gap-8 flex flex-col overflow-y-hidden overflow-x-auto"
+      className="flex-auto p-6 gap-8 flex flex-col overflow-y-hidden overflow-x-auto"
     >
       {children}
     </div>
@@ -77,7 +77,7 @@ export const DialogFooter = ({ children, ...props }: DialogFooterProps) => {
   return (
     <div
       {...props}
-      className="flex justify-end items-center gap-2 py-2 px-5 border-t border-t-slate-500"
+      className="flex justify-end items-center gap-2 py-2 px-5 border-t"
     >
       {children}
     </div>

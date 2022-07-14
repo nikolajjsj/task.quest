@@ -9,7 +9,7 @@ import { AppTitle } from "../../components/common/text";
 import { Button } from "../../components/common/button";
 
 const tasksStyle =
-  "max-w-11/12 flex flex-wrap justify-center gap-4 md:max-w-4/5 lg:max-w-[1000px]";
+  "w-full max-w-11/12 flex flex-wrap justify-center gap-4 md:max-w-4/5 lg:max-w-[1000px]";
 
 const Project: NextPage = () => {
   const [taskDialog, setTaskDialog] = useState<boolean>(false);
@@ -22,7 +22,7 @@ const Project: NextPage = () => {
 
   return (
     <>
-      <div className="flex-auto overflow-auto flex flex-col items-center gap-8 px-4 md:px-8">
+      <div className="flex-auto overflow-auto flex flex-col items-center gap-8 px-2 py-4 md:py-8">
         <AppTitle>Pinned Tasks</AppTitle>
 
         <div className={tasksStyle}>

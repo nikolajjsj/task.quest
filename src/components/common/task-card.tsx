@@ -2,7 +2,6 @@ import { Project, Task } from "@prisma/client";
 import { RiTodoFill, RiDeleteBin7Fill } from "react-icons/ri";
 import { FaCheck } from "react-icons/fa";
 import { TiPin, TiPinOutline } from "react-icons/ti";
-import { Card } from "../common/card";
 import { Spinner } from "../common/spinner";
 import { Description, Title } from "../common/text";
 import { Spacer } from "../common/spacer";
@@ -21,20 +20,21 @@ export const TaskCard = ({ task, project }: Props) => {
   const loading = mutateTask.isLoading || deleteTask.isLoading;
 
   return (
-    <Card
-      className="relative p-6 cursor-pointer"
+    <div
+      className="relative flex-auto w-full max-w-md rounded-lg border border-slate-500 p-6 cursor-pointer"
       onClick={(e: any) => {
         e.stopPropagation();
         router.push(`/tasks/${task.id}`);
       }}
     >
-      <div className="flex items-center justify-between pb-4">
+      <div className="flex items-center justify-between">
         <div className="gap-2 flex-auto flex items-center">
           {loading ? (
             <Spinner center />
           ) : (
             <RiTodoFill size={20} color={task.color} />
           )}
+
           <Title>{task.title}</Title>
 
           <Spacer direction="x" />
@@ -59,12 +59,13 @@ export const TaskCard = ({ task, project }: Props) => {
         </div>
       </div>
 
-      <Description className="pb-8">{task.description}</Description>
+      <Description className="py-4">{task.description}</Description>
 
-      <div className="absolute bottom-2 right-2 flex gap-2">
+      <div className="flex justify-end gap-2">
         <FaCheck
-          className="h-6 w-6 cursor-pointer"
-          color={task.status !== "DONE" ? "green" : "yellow"}
+          className={`h-5 w-5 cursor-pointe ${
+            task.status === "DONE" ? "text-green-600" : "text-gray-400"
+          }`}
           onClick={(e: any) => {
             e.stopPropagation();
             mutateTask.mutate({
@@ -75,15 +76,14 @@ export const TaskCard = ({ task, project }: Props) => {
         />
 
         <RiDeleteBin7Fill
-          className="cursor-pointer h-6 w-6"
-          color="red"
+          className={`h-5 w-5 cursor-pointe text-red-400`}
           onClick={(e: any) => {
             e.stopPropagation();
             deleteTask.mutate(task.id);
           }}
         />
       </div>
-    </Card>
+    </div>
   );
 };
 

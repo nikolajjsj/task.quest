@@ -12,14 +12,16 @@ export const ProjectNavbar = ({ projects }: Props) => {
 
   return (
     <>
-      <div className="w-36 hidden flex-col items-stretch border-r border-r-black p-4 gap-2 sm:flex">
+      <div className="w-48 hidden flex-col items-stretch border-r p-4 gap-6 sm:flex">
         {projects?.map((p) => (
           <Link key={p.id} href={`/projects/${p.id}`}>
-            <Button variant="white">{p.title}</Button>
+            <div className="truncate font-semibold cursor-pointer">
+              {p.title}
+            </div>
           </Link>
         ))}
 
-        <Button onClick={() => setProjectDialog(true)}>Add Project</Button>
+        <Button onClick={() => setProjectDialog(true)}>+</Button>
       </div>
 
       {projectDialog && (

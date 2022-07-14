@@ -11,7 +11,7 @@ export const AppTitle = ({ children, ...props }: Props) => {
 
 export const Title = ({ children, ...props }: Props) => {
   return (
-    <h1 {...props} className="text-lg font-semibold md:text-xl">
+    <h1 {...props} className="text-md font-semibold md:text-lg">
       {children}
     </h1>
   );

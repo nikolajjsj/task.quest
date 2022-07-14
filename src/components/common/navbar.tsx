@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { FaUserCircle, FaTasks } from "react-icons/fa";
 import { HiHome, HiTemplate } from "react-icons/hi";
 import { IoIosSettings } from "react-icons/io";
@@ -6,35 +7,70 @@ import { RiTimerFlashLine } from "react-icons/ri";
 import { Spacer } from "./spacer";
 
 const iconStyle =
-  "cursor-pointer h-6 w-6 text-white duration-500 md:h-8 md:w-8 hover:scale-105";
+  "cursor-pointer h-6 w-6 duration-500 text-slate-500 md:h-8 md:w-8 hover:scale-105";
 
 export const Navbar = () => {
+  const router = useRouter();
+  console.log(router.pathname);
+
   return (
-    <nav className="sticky top-0 bottom-0 left-0 flex flex-col bg-sky-900 p-1 gap-4 md:p-3">
-      <Link href="/">
-        <HiHome className={iconStyle} />
+    <nav className="sticky top-0 bottom-0 left-0 flex flex-col p-2 gap-4 md:p-3 border">
+      <Link href="/" passHref>
+        <div>
+          <HiHome className={iconStyle} />
+        </div>
       </Link>
 
-      <Link href="/projects">
-        <HiTemplate className={iconStyle} />
+      <Link href="/projects" passHref>
+        <div>
+          <HiTemplate
+            className={`${iconStyle} ${
+              router.pathname === "/projects" ? "text-black" : ""
+            }`}
+          />
+        </div>
       </Link>
 
-      <Link href="/tasks">
-        <FaTasks className={iconStyle} />
+      <Link href="/tasks" passHref>
+        <div>
+          <FaTasks
+            className={`${iconStyle} ${
+              router.pathname === "/tasks" ? "text-black" : ""
+            }`}
+          />
+        </div>
       </Link>
 
-      <Link href="/pomodoro">
-        <RiTimerFlashLine className={iconStyle} />
+      <Link href="/pomodoro" passHref>
+        <div>
+          <RiTimerFlashLine
+            className={`${iconStyle} ${
+              router.pathname === "/pomodoro" ? "text-black" : ""
+            }`}
+          />
+        </div>
       </Link>
 
       <Spacer direction="y" />
 
-      <Link href="/auth">
-        <FaUserCircle className={iconStyle} />
+      <Link href="/auth" passHref>
+        <div>
+          <FaUserCircle
+            className={`${iconStyle} ${
+              router.pathname === "/auth" ? "text-black" : ""
+            }`}
+          />
+        </div>
       </Link>
 
-      <Link href="/settings">
-        <IoIosSettings className={iconStyle} />
+      <Link href="/settings" passHref>
+        <div>
+          <IoIosSettings
+            className={`${iconStyle} ${
+              router.pathname === "/settings" ? "text-black" : ""
+            }`}
+          />
+        </div>
       </Link>
     </nav>
   );

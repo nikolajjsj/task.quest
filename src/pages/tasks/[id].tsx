@@ -13,7 +13,7 @@ const Project: NextPage = () => {
   if (data == null) return <p>Nothing here...</p>;
 
   return (
-    <div className="flex-auto flex flex-col items-center justify-center">
+    <div className="relative flex-auto flex flex-col items-center justify-center">
       <AppTitle>{data.title}</AppTitle>
 
       <p className="text-sm">{data.description}</p>
