@@ -1,30 +1,18 @@
 import Link from "next/link";
-import { styled } from "../../styles/stitches.config";
-import { Card } from "../common/card";
 
 type Props = {
   title: string;
   href: string;
-  backgroundColor: string;
-};
+} & React.HTMLProps<HTMLDivElement>;
 
-export const FeatureCard = ({ title, href, backgroundColor }: Props) => {
+export const FeatureCard = ({ title, href, className }: Props) => {
   return (
     <Link href={href}>
-      <s.FeatureLink css={{ backgroundColor }}>{title}</s.FeatureLink>
+      <div
+        className={`shadow-xl py-12 px-8 uppercase font-bold tracking-wider text-2xl rounded border cursor-pointer hover:scale-105 duration-500 ${className}`}
+      >
+        {title}
+      </div>
     </Link>
   );
 };
-
-namespace s {
-  export const FeatureLink = styled(Card, {
-    cursor: "pointer",
-    boxShadow: "$xl",
-    padding: "$12 $8",
-    textTransform: "uppercase",
-    fontWeight: 700,
-    letterSpacing: "$wider",
-    fontSize: "$4xl",
-    color: "$white",
-  });
-}

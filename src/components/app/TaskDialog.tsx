@@ -41,20 +41,14 @@ export const TaskDialog = ({ onClose, projectId }: Props) => {
   const color = watch("color");
 
   return (
-    <d.Dialog
-      title="New Task"
-      maxHeight="lg"
-      onClose={onClose}
-      closeOnClickOutside
-      closeOnEsc
-    >
+    <d.Dialog title="New Task" onClose={onClose} closeOnClickOutside closeOnEsc>
       <input.Form
         onSubmit={handleSubmit(async (data) => {
           await mutateAsync({ ...data, projectId });
           onClose();
         })}
       >
-        <d.DialogContent css={{ gap: "$8" }}>
+        <d.DialogContent>
           <input.InputGroup>
             <input.Label>Title</input.Label>
             <input.Input {...register("title", { required: true })} />
@@ -78,7 +72,7 @@ export const TaskDialog = ({ onClose, projectId }: Props) => {
 
         <d.DialogFooter>
           <Button type="submit" disabled={errors == null}>
-            {isLoading ? <Spinner size="small" color="white" /> : "Save"}
+            {isLoading ? <Spinner center /> : "Save"}
           </Button>
         </d.DialogFooter>
       </input.Form>

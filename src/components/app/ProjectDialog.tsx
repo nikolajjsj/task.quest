@@ -36,7 +36,6 @@ export const ProjectDialog = ({ onClose }: { onClose: () => void }) => {
   return (
     <d.Dialog
       title="New Project"
-      maxHeight="lg"
       onClose={onClose}
       closeOnClickOutside
       closeOnEsc
@@ -47,7 +46,7 @@ export const ProjectDialog = ({ onClose }: { onClose: () => void }) => {
           onClose();
         })}
       >
-        <d.DialogContent css={{ gap: "$8" }}>
+        <d.DialogContent>
           <input.InputGroup>
             <input.Label>Title</input.Label>
             <input.Input {...register("title", { required: true })} />
@@ -74,7 +73,7 @@ export const ProjectDialog = ({ onClose }: { onClose: () => void }) => {
 
         <d.DialogFooter>
           <Button type="submit">
-            {isLoading ? <Spinner color="white" /> : "Save"}
+            {isLoading ? <Spinner center /> : "Save"}
           </Button>
         </d.DialogFooter>
       </input.Form>

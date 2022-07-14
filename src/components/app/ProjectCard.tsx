@@ -1,9 +1,7 @@
 import { Project } from "@prisma/client";
 import Link from "next/link";
 import { GiWhiteBook } from "react-icons/gi";
-import { rem, styled } from "../../styles/stitches.config";
-import { Card as AppCard } from "../common/card";
-import { Flex } from "../common/common";
+import { Card } from "../common/card";
 import { Description, Title } from "../common/text";
 
 type Props = {
@@ -14,39 +12,21 @@ export const ProjectCard = ({ project }: Props) => {
 
   return (
     <Link href={`projects/${project.id}`}>
-      <s.Card>
-        <s.Header>
-          <Flex gap={2} css={{ alignItems: "center" }}>
+      <Card className="relative p-6 cursor-pointer">
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-2">
             <GiWhiteBook size={25} color={project.color} opacity={0.5} />
             <Title>{project.title}</Title>
-          </Flex>
+          </div>
           <Description>
             {tasks.length > 0
               ? `${tasks.length} ${tasks.length === 1 ? "task" : "tasks"}`
               : null}
           </Description>
-        </s.Header>
+        </div>
 
         <Description>{project.description}</Description>
-      </s.Card>
+      </Card>
     </Link>
   );
 };
-
-namespace s {
-  export const Card = styled(AppCard, {
-    minHeight: rem(150),
-    margin: "0 auto",
-    cursor: "pointer",
-
-    "&:hover": {
-      background: "none rgba(0, 0, 0, 0.05)",
-    },
-  });
-
-  export const Header = styled("header", {
-    display: "flex",
-    flexDirection: "column",
-    gap: "$2",
-  });
-}

@@ -1,11 +1,14 @@
 import Head from "next/head";
 import { useCallback, useEffect, useReducer, useState } from "react";
 import { BsSkipEnd } from "react-icons/bs";
-import { styled } from "../../styles/stitches.config";
 import { formatTime } from "../../utils/time";
 import * as r from "../../hooks/reducers/pomodoro.reducer";
 import { AppTitle } from "../../components/common/text";
-import { Button as AppButton } from "../../components/common/button";
+import { Button } from "../../components/common/button";
+
+const BUTTON_STYLE = "text-xs font-bold uppercase md:text-2xl";
+const RESET =
+  "shadow-none border border-transparent text-xs bg-transparent md:text-md";
 
 type TypeButtonProps = {
   type: r.POMODORO_TYPE;
@@ -19,14 +22,14 @@ const TypeButton = ({
   updateType,
   children,
 }: TypeButtonProps) => {
-  const bg = type === selectedType ? "none rgba(0, 0, 0, 0.15)" : "transparent";
+  const bg = type === selectedType ? "" : "brightness-50";
   return (
-    <s.Button
+    <Button
+      className={RESET + BUTTON_STYLE + bg}
       onClick={() => updateType(type)}
-      css={{ ...s.TypeReset, background: bg }}
     >
       {children}
-    </s.Button>
+    </Button>
   );
 };
 
@@ -67,11 +70,21 @@ const Pomodoro = () => {
         <title>Pomodoro - {formatTime(time)}</title>
       </Head>
 
-      <s.Pane>
+      <div className="flex-auto overflow-auto flex flex-col justify-center items-center p-4 gap-4 md:p-8 md:gap-8">
         <AppTitle>Pomodoro - {`#${state.cycle}`}</AppTitle>
 
-        <s.Pomodoro variant={state.type} ticking={state.tickerId !== undefined}>
-          <s.Controls>
+        <div
+          className={`flex flex-col items-center justify-center gap-2 p-4 rounded-lg duration-200 shadow-md sm:p-12 sm:gap-8 ${
+            state.tickerId !== undefined ? "shadow-xl" : ""
+          } ${
+            state.type === "POMODORO"
+              ? "bg-red-400 text-white"
+              : state.type === "LONG_BREAK"
+              ? "bg-orange-400 text-white"
+              : "bg-green-400 text-white"
+          }`}
+        >
+          <div className="flex flex-col items-center gap-4 sm:flex-row">
             <TypeButton
               type="POMODORO"
               selectedType={state.type}
@@ -116,23 +129,26 @@ const Pomodoro = () => {
             >
               Long Break
             </TypeButton>
-          </s.Controls>
-          <s.Time>{formatTime(time)}</s.Time>
-        </s.Pomodoro>
+          </div>
 
-        <s.Controls>
+          <div className="text-5xl font-bold tracking-widest xm:text-9xl xs:text-7xl">
+            {formatTime(time)}
+          </div>
+        </div>
+
+        <div className="flex flex-col items-center gap-4 sm:flex-row">
           {state.tickerId === undefined && (
-            <s.Button onClick={start}>Start</s.Button>
+            <Button onClick={start}>Start</Button>
           )}
 
           {state.tickerId !== undefined && (
-            <s.Button onClick={stop} variant="delete">
+            <Button onClick={stop} variant="delete">
               Stop
-            </s.Button>
+            </Button>
           )}
 
           {state.tickerId !== undefined && (
-            <s.Button
+            <Button
               onClick={() => {
                 stop();
                 dispatch({ type: "NEXT_CYCLE", setTime });
@@ -140,106 +156,11 @@ const Pomodoro = () => {
               variant="primary"
             >
               <BsSkipEnd />
-            </s.Button>
+            </Button>
           )}
-        </s.Controls>
-      </s.Pane>
+        </div>
+      </div>
     </>
   );
 };
 export default Pomodoro;
-
-namespace s {
-  export const Pane = styled("div", {
-    flex: "auto",
-    overflow: "auto",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: "$4",
-    gap: "$4",
-
-    "@md": {
-      padding: "$8",
-      gap: "$8",
-    },
-  });
-
-  export const Pomodoro = styled("div", {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: "$2",
-    padding: "$4",
-    borderRadius: "$lg",
-    transition: "0.2s",
-    boxShadow: "$md",
-
-    "@sm": {
-      padding: "$12",
-      gap: "$8",
-    },
-
-    variants: {
-      variant: {
-        POMODORO: {
-          background: "$danger",
-          color: "$white",
-        },
-        SMALL_BREAK: {
-          background: "$primary-500",
-          color: "$white",
-        },
-        LONG_BREAK: {
-          background: "$secondary-500",
-          color: "$white",
-        },
-      },
-      ticking: {
-        true: { boxShadow: "$xl" },
-      },
-    },
-  });
-
-  export const Time = styled("h2", {
-    fontSize: "$5xl",
-    fontWeight: 700,
-    letterSpacing: "$widest",
-
-    "@xs": { fontSize: "$7xl" },
-    "@sm": { fontSize: "$9xl" },
-  });
-
-  export const Controls = styled("div", {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    gap: "$4",
-
-    "@sm": {
-      flexDirection: "row",
-    },
-  });
-
-  export const TypeReset = {
-    boxShadow: "none",
-    border: `1px solid transparent`,
-    fontSize: "$xs",
-    background: "transparent",
-
-    "@md": {
-      fontSize: "$base",
-    },
-  };
-  export const Button = styled(AppButton, {
-    fontSize: "$xs",
-    fontWeight: 700,
-    textTransform: "uppercase",
-
-    "@md": {
-      fontSize: "$2xl",
-    },
-  });
-}

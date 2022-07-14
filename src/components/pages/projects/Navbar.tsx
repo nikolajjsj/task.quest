@@ -1,7 +1,6 @@
 import { Project } from "@prisma/client";
 import Link from "next/link";
 import { useState } from "react";
-import { rem, styled } from "../../../styles/stitches.config";
 import { ProjectDialog } from "../../app/ProjectDialog";
 import { Button } from "../../common/button";
 
@@ -13,7 +12,7 @@ export const ProjectNavbar = ({ projects }: Props) => {
 
   return (
     <>
-      <s.ProjectNavbar>
+      <div className="w-36 hidden flex-col items-stretch border-r border-r-black p-4 gap-2 sm:flex">
         {projects?.map((p) => (
           <Link key={p.id} href={`/projects/${p.id}`}>
             <Button variant="white">{p.title}</Button>
@@ -21,7 +20,7 @@ export const ProjectNavbar = ({ projects }: Props) => {
         ))}
 
         <Button onClick={() => setProjectDialog(true)}>Add Project</Button>
-      </s.ProjectNavbar>
+      </div>
 
       {projectDialog && (
         <ProjectDialog onClose={() => setProjectDialog(false)} />
@@ -29,19 +28,3 @@ export const ProjectNavbar = ({ projects }: Props) => {
     </>
   );
 };
-
-namespace s {
-  export const ProjectNavbar = styled("div", {
-    width: rem(150),
-    display: "none",
-    flexDirection: "column",
-    alignItems: "stretch",
-    borderRight: "1px solid $black",
-    padding: "$4",
-    gap: "$2",
-
-    "@sm": {
-      display: "flex",
-    },
-  });
-}

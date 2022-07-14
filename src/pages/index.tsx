@@ -1,70 +1,39 @@
 import type { NextPage } from "next";
 import { FeatureCard } from "../components/app/FeatureCard";
-import { Spacer } from "../components/common/spacer";
-import { AppTitle, Span } from "../components/common/text";
-import { SCREEN_XL, styled } from "../styles/stitches.config";
+import { AppTitle } from "../components/common/text";
+import { SCREEN_XL } from "../styles/scales";
 
 const Home: NextPage = () => {
   return (
-    <s.Home>
-      <Spacer y={12} />
+    <div className="flex-auto overflow-auto flex flex-col items-center justify-center gap-8">
+      <div className="h-12"></div>
 
       <AppTitle>
-        Task<Span css={{ color: "Grey" }}>.quest</Span>
+        Task<span className="text-slate-500">.quest</span>
       </AppTitle>
 
-      <Spacer y={12} />
+      <div className="h-12"></div>
 
-      <s.Features>
+      <div
+        className={`w-11/12 max-w-[${SCREEN_XL}px] mx-auto grid content-center gap-4 grid-cols-1 sm:grid-cols-2 lg:w-4/5 lg:grid-cols-3`}
+      >
         <FeatureCard
           href="/pomodoro"
           title="Pomodoro"
-          backgroundColor="#00CECB"
+          className="bg-slate-50"
         />
 
         <FeatureCard
           href="/projects"
           title="Projects"
-          backgroundColor="#FF5E5B"
+          className="bg-slate-50"
         />
 
-        <FeatureCard href="/tasks" title="Tasks" backgroundColor="#457b9d" />
-      </s.Features>
+        <FeatureCard href="/tasks" title="Tasks" className="bg-slate-50" />
+      </div>
 
-      <Spacer y={40} />
-    </s.Home>
+      <div className="h-40"></div>
+    </div>
   );
 };
 export default Home;
-
-namespace s {
-  export const Home = styled("div", {
-    flex: "auto",
-    overflow: "auto",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: "$8",
-  });
-
-  export const Features = styled("div", {
-    width: "95%",
-    maxWidth: SCREEN_XL,
-    margin: "0 auto",
-    display: "grid",
-    placeContent: "center",
-    gap: "$4",
-    gridTemplateColumns: "1fr",
-
-    "@sm": {
-      width: "90%",
-      gridTemplateColumns: "1fr 1fr",
-    },
-
-    "@lg": {
-      width: "80%",
-      gridTemplateColumns: "1fr 1fr 1fr",
-    },
-  });
-}

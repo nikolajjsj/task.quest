@@ -2,9 +2,7 @@ import { Project, Task } from "@prisma/client";
 import { RiTodoFill, RiDeleteBin7Fill } from "react-icons/ri";
 import { FaCheck } from "react-icons/fa";
 import { TiPin, TiPinOutline } from "react-icons/ti";
-import { rem, styled } from "../../styles/stitches.config";
-import { Card as AppCard } from "../common/card";
-import { Flex } from "../common/common";
+import { Card } from "../common/card";
 import { Spinner } from "../common/spinner";
 import { Description, Title } from "../common/text";
 import { Spacer } from "../common/spacer";
@@ -23,38 +21,49 @@ export const TaskCard = ({ task, project }: Props) => {
   const loading = mutateTask.isLoading || deleteTask.isLoading;
 
   return (
-    <s.Card
-      onClick={(e) => {
+    <Card
+      className="relative p-6 cursor-pointer"
+      onClick={(e: any) => {
         e.stopPropagation();
-        router.push(`tasks/${task.id}`);
+        router.push(`/tasks/${task.id}`);
       }}
     >
-      <s.Header>
-        <Flex gap={2} css={{ flex: "auto", alignItems: "center" }}>
+      <div className="flex items-center justify-between pb-4">
+        <div className="gap-2 flex-auto flex items-center">
           {loading ? (
-            <Spinner size="small" />
+            <Spinner center />
           ) : (
             <RiTodoFill size={20} color={task.color} />
           )}
           <Title>{task.title}</Title>
 
-          <Spacer x="auto" />
+          <Spacer direction="x" />
 
-          <s.Icon
-            as={task.pinned ? TiPin : TiPinOutline}
-            onClick={(e: any) => {
-              e.stopPropagation();
-              mutateTask.mutate({ id: task.id, pinned: !task.pinned });
-            }}
-          />
-        </Flex>
-      </s.Header>
+          {task.pinned ? (
+            <TiPin
+              className="h-6 w-6 cursor-pointer"
+              onClick={(e: any) => {
+                e.stopPropagation();
+                mutateTask.mutate({ id: task.id, pinned: !task.pinned });
+              }}
+            />
+          ) : (
+            <TiPinOutline
+              className="h-6 w-6 cursor-pointer"
+              onClick={(e: any) => {
+                e.stopPropagation();
+                mutateTask.mutate({ id: task.id, pinned: !task.pinned });
+              }}
+            />
+          )}
+        </div>
+      </div>
 
-      <Description>{task.description}</Description>
+      <Description className="pb-8">{task.description}</Description>
 
-      <s.Actions>
-        <s.Icon
-          as={FaCheck}
+      <div className="absolute bottom-2 right-2 flex gap-2">
+        <FaCheck
+          className="h-6 w-6 cursor-pointer"
           color={task.status !== "DONE" ? "green" : "yellow"}
           onClick={(e: any) => {
             e.stopPropagation();
@@ -65,16 +74,16 @@ export const TaskCard = ({ task, project }: Props) => {
           }}
         />
 
-        <s.Icon
-          as={RiDeleteBin7Fill}
+        <RiDeleteBin7Fill
+          className="cursor-pointer h-6 w-6"
           color="red"
           onClick={(e: any) => {
             e.stopPropagation();
             deleteTask.mutate(task.id);
           }}
         />
-      </s.Actions>
-    </s.Card>
+      </div>
+    </Card>
   );
 };
 
@@ -104,45 +113,3 @@ const useDeleteTask = (projectId?: string) => {
     },
   });
 };
-
-namespace s {
-  export const Card = styled(AppCard, {
-    margin: "0 auto",
-    position: "relative",
-    minHeight: rem(150),
-    cursor: "pointer",
-
-    "&:hover": {
-      background: "none rgba(0, 0, 0, 0.05)",
-    },
-  });
-
-  export const Header = styled("header", {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingBottom: "$4",
-  });
-
-  export const Actions = styled("div", {
-    position: "absolute",
-    bottom: "$2",
-    right: "$2",
-    display: "flex",
-    gap: "$2",
-  });
-
-  export const Icon = styled("svg", {
-    cursor: "pointer",
-    height: rem(20),
-    width: rem(20),
-
-    variants: {
-      color: {
-        red: { color: "$danger" },
-        green: { color: "$success" },
-        yellow: { color: "$warning" },
-      },
-    },
-  });
-}

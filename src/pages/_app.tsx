@@ -7,29 +7,24 @@ import { RouteGuard } from "../hooks/routeGuard";
 import type { AppRouter } from "../server/router";
 import Head from "next/head";
 import "../styles/globals.css";
-import { globalStyles, styled } from "../styles/stitches.config";
 
 const MyApp: AppType = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
-  globalStyles();
-
   return (
     <SessionProvider session={session}>
       <Head>
         <title>Task.quest</title>
       </Head>
 
-      <s.App>
+      <main className="h-full w-full relative flex bg-slate-100 text-black duration-200">
         <Navbar />
 
         <RouteGuard>
-          {/* <s.AppContent> */}
           <Component {...pageProps} />
-          {/* </s.AppContent> */}
         </RouteGuard>
-      </s.App>
+      </main>
     </SessionProvider>
   );
 };
@@ -66,21 +61,3 @@ export default withTRPC<AppRouter>({
    */
   ssr: false,
 })(MyApp);
-
-namespace s {
-  export const App = styled("main", {
-    height: "100%",
-    width: "100%",
-    position: "relative",
-    display: "flex",
-    background: "$white",
-    color: "$black",
-    transition: "0.2s",
-  });
-
-  export const AppContent = styled("div", {
-    flex: "auto",
-    overflowX: "hidden",
-    overflowY: "auto",
-  });
-}
