@@ -1,3 +1,5 @@
+import React from "react";
+
 type FormProps = React.HTMLProps<HTMLFormElement>;
 export const Form = ({ children, ...props }: FormProps) => {
   return (
@@ -26,21 +28,29 @@ export const Label = ({ children, ...props }: LabelProps) => {
 };
 
 type InputProps = React.HTMLProps<HTMLInputElement>;
-export const Input = ({ children, ...props }: InputProps) => {
+export const Input = React.forwardRef(function Input(
+  { children, ...props }: InputProps,
+  ref,
+) {
   return (
     <input
       {...props}
+      ref={ref as any}
       className="flex-auto py-3 px-4 bg-white border border-slate-500 rounded-lg"
-    ></input>
+    />
   );
-};
+});
 
 type TextAreaProps = React.HTMLProps<HTMLTextAreaElement>;
-export const TextArea = ({ children, ...props }: TextAreaProps) => {
+export const TextArea = React.forwardRef(function TextArea(
+  { children, ...props }: TextAreaProps,
+  ref,
+) {
   return (
     <textarea
       {...props}
+      ref={ref as any}
       className="flex-auto py-3 px-4 bg-white border border-slate-500 rounded-lg"
-    ></textarea>
+    />
   );
-};
+});
