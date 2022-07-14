@@ -104,7 +104,6 @@ const useDeleteTask = (projectId?: string) => {
   const utils = trpc.useContext();
   return trpc.useMutation(["task.delete"], {
     onSuccess: (data, variables) => {
-      console.log({ data, variables });
       if (projectId !== undefined) {
         utils.invalidateQueries(["project.get", { id: projectId }]);
       } else {

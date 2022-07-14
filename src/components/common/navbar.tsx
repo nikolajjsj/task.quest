@@ -7,45 +7,50 @@ import { RiTimerFlashLine } from "react-icons/ri";
 import { Spacer } from "./spacer";
 
 const iconStyle =
-  "cursor-pointer h-6 w-6 duration-500 text-slate-500 md:h-8 md:w-8 hover:scale-105";
+  "cursor-pointer h-6 w-6 duration-500  md:h-8 md:w-8 hover:scale-105";
+const active = "text-indigo-700";
+const inactive = "text-slate-500";
 
 export const Navbar = () => {
   const router = useRouter();
-  console.log(router.pathname);
 
   return (
-    <nav className="sticky top-0 bottom-0 left-0 flex flex-col p-2 gap-4 md:p-3 border">
-      <Link href="/" passHref>
+    <nav className="sticky top-0 bottom-0 left-0 flex flex-col p-2 gap-6 md:p-3 border">
+      <Link href="/">
         <div>
-          <HiHome className={iconStyle} />
+          <HiHome
+            className={`${iconStyle} ${
+              router.pathname === "/" ? active : inactive
+            }`}
+          />
         </div>
       </Link>
 
-      <Link href="/projects" passHref>
+      <Link href="/projects">
         <div>
           <HiTemplate
             className={`${iconStyle} ${
-              router.pathname === "/projects" ? "text-black" : ""
+              router.pathname === "/projects" ? active : inactive
             }`}
           />
         </div>
       </Link>
 
-      <Link href="/tasks" passHref>
+      <Link href="/tasks">
         <div>
           <FaTasks
             className={`${iconStyle} ${
-              router.pathname === "/tasks" ? "text-black" : ""
+              router.pathname === "/tasks" ? active : inactive
             }`}
           />
         </div>
       </Link>
 
-      <Link href="/pomodoro" passHref>
+      <Link href="/pomodoro">
         <div>
           <RiTimerFlashLine
             className={`${iconStyle} ${
-              router.pathname === "/pomodoro" ? "text-black" : ""
+              router.pathname === "/pomodoro" ? active : inactive
             }`}
           />
         </div>
@@ -53,21 +58,21 @@ export const Navbar = () => {
 
       <Spacer direction="y" />
 
-      <Link href="/auth" passHref>
+      <Link href="/auth">
         <div>
           <FaUserCircle
             className={`${iconStyle} ${
-              router.pathname === "/auth" ? "text-black" : ""
+              router.pathname === "/auth" ? active : inactive
             }`}
           />
         </div>
       </Link>
 
-      <Link href="/settings" passHref>
+      <Link href="/settings">
         <div>
           <IoIosSettings
             className={`${iconStyle} ${
-              router.pathname === "/settings" ? "text-black" : ""
+              router.pathname === "/settings" ? active : inactive
             }`}
           />
         </div>
@@ -75,42 +80,3 @@ export const Navbar = () => {
     </nav>
   );
 };
-
-// namespace s {
-//   export const Navbar = styled("nav", {
-//     position: "sticky",
-//     top: 0,
-//     bottom: 0,
-//     left: 0,
-//     display: "flex",
-//     flexDirection: "column",
-//     background: "$black",
-//     padding: "$1",
-//     gap: "$2",
-
-//     "@md": {
-//       padding: "$2",
-//     },
-//   });
-
-//   export const Title = styled("h1", {
-//     fontSize: "$xl",
-//     fontWeight: 700,
-//     letterSpacing: "$wider",
-
-//     "@md": {
-//       fontSize: "$2xl",
-//     },
-//   });
-
-//   export const Icon = styled("svg", {
-//     height: rem(16),
-//     width: rem(16),
-//     color: "$white",
-
-//     "@md": {
-//       height: rem(24),
-//       width: rem(24),
-//     },
-//   });
-// }
