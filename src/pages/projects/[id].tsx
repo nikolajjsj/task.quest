@@ -7,9 +7,20 @@ import { Spinner } from "../../components/common/spinner";
 import { TaskDialog } from "../../components/common/task-dialog";
 import { ProjectNavbar } from "../../components/pages/projects/Navbar";
 import { trpc } from "../../utils/trpc";
-import { AppTitle } from "../../components/common/text";
+import { AppTitle, EmptyMessage } from "../../components/common/text";
 import { GhostButton } from "../../components/common/button";
 import { TaskList } from "../../components/common/task-list";
+
+const Project: NextPage = () => {
+  return (
+    <div className="flex-auto flex">
+      <ProjectNavbar />
+
+      <ProjectContent />
+    </div>
+  );
+};
+export default Project;
 
 const useDeleteProject = () => {
   const utils = trpc.useContext();
@@ -23,57 +34,45 @@ const useDeleteProject = () => {
   });
 };
 
-const Project: NextPage = () => {
+const ProjectContent = () => {
+  const [taskDialog, setTaskDialog] = useState<boolean>(false);
   const router = useRouter();
   const { id } = router.query;
-  const [taskDialog, setTaskDialog] = useState<boolean>(false);
 
   const deleteMutation = useDeleteProject();
-  const { data: projects } = trpc.useQuery(["project.getAll"]);
-  const { data: project, isLoading } = trpc.useQuery([
-    "project.get",
-    { id: id as string },
-  ]);
+  const project = trpc.useQuery(["project.get", { id: id as string }]);
 
-  if (deleteMutation.isLoading) return <Spinner center />;
+  if (deleteMutation.isLoading || project.isLoading) return <Spinner center />;
+  if (project.data == null) return <EmptyMessage>Nothing here...</EmptyMessage>;
 
   return (
-    <div className="flex-auto flex">
-      <ProjectNavbar projects={projects} />
-
+    <>
       <div className="relative flex-auto w-full flex flex-col items-center overflow-auto py-8 px-4 gap-4">
-        {isLoading ? (
-          <Spinner center />
-        ) : (
-          <>
-            <AppTitle>{project?.title}</AppTitle>
+        <AppTitle>{project.data.title}</AppTitle>
 
-            <div className="flex justify-center p-4 gap-4">
-              <GhostButton onClick={() => setTaskDialog(true)}>
-                <FaPlus size={20} />
-                Add Task
-              </GhostButton>
+        <div className="flex justify-center p-4 gap-4">
+          <GhostButton onClick={() => setTaskDialog(true)}>
+            <FaPlus size={20} />
+            Add Task
+          </GhostButton>
 
-              <GhostButton onClick={() => deleteMutation.mutate(project!.id)}>
-                <RiDeleteBin7Fill size={20} className="text-red-400" />
-                Delete Project
-              </GhostButton>
-            </div>
+          <GhostButton onClick={() => deleteMutation.mutate(project.data!.id)}>
+            <RiDeleteBin7Fill size={20} className="text-red-400" />
+            Delete Project
+          </GhostButton>
+        </div>
 
-            <hr className="w-full border" />
+        <hr className="w-full border" />
 
-            <TaskList tasks={project?.Task} />
-          </>
-        )}
+        <TaskList tasks={project.data.Task} project={project.data} />
       </div>
 
       {taskDialog && (
         <TaskDialog
-          projectId={project?.id}
+          projectId={project.data.id}
           onClose={() => setTaskDialog(false)}
         />
       )}
-    </div>
+    </>
   );
 };
-export default Project;

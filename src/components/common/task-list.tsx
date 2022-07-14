@@ -1,16 +1,17 @@
-import { Task } from "@prisma/client";
+import { Project, Task, User } from "@prisma/client";
 import { useMemo, useState } from "react";
 import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs";
 import { TaskCard } from "./task-card";
-import { Title } from "./text";
+import { EmptyMessage, Title } from "./text";
 
 const tasksStyle =
   "w-full max-w-11/12 flex flex-wrap justify-center gap-4 md:max-w-4/5 lg:max-w-[1000px]";
 
 type Props = {
+  project?: Project & { Task: Task[]; user: User };
   tasks: Task[] | undefined;
 };
-export const TaskList = ({ tasks }: Props) => {
+export const TaskList = ({ tasks, project }: Props) => {
   const [showDone, setShowDone] = useState<boolean>(false);
 
   const pinnedTasks = useMemo(() => tasks?.filter((t) => t.pinned), [tasks]);
@@ -23,6 +24,8 @@ export const TaskList = ({ tasks }: Props) => {
     [tasks],
   );
 
+  if (tasks?.length === 0) return <EmptyMessage>No Tasks Yet!</EmptyMessage>;
+
   return (
     <>
       {pinnedTasks !== undefined && pinnedTasks?.length > 0 && (
@@ -31,7 +34,7 @@ export const TaskList = ({ tasks }: Props) => {
 
       <div className={tasksStyle}>
         {pinnedTasks?.map((task) => (
-          <TaskCard key={task.id} task={task} />
+          <TaskCard key={task.id} task={task} project={project} />
         ))}
       </div>
 
@@ -41,7 +44,7 @@ export const TaskList = ({ tasks }: Props) => {
 
       <div className={tasksStyle}>
         {otherTasks?.map((task) => (
-          <TaskCard key={task.id} task={task} />
+          <TaskCard key={task.id} task={task} project={project} />
         ))}
       </div>
 
@@ -64,7 +67,7 @@ export const TaskList = ({ tasks }: Props) => {
               <hr className="my-4"></hr>
               <div className={tasksStyle}>
                 {doneTasks?.map((task) => (
-                  <TaskCard key={task.id} task={task} />
+                  <TaskCard key={task.id} task={task} project={project} />
                 ))}
               </div>
             </>
