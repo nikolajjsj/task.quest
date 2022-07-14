@@ -61,7 +61,7 @@ export const TaskCard = ({ task, project }: Props) => {
 
       <Description className="py-4">{task.description}</Description>
 
-      <div className="flex justify-end gap-2">
+      <div className="flex justify-end gap-6">
         <FaCheck
           className={`h-5 w-5 cursor-pointe ${
             task.status === "DONE" ? "text-green-600" : "text-gray-400"
