@@ -1,6 +1,7 @@
 import { Project } from "@prisma/client";
 import Link from "next/link";
 import { useState } from "react";
+import { FaPlus } from "react-icons/fa";
 import { ProjectDialog } from "../../common/project-dialog";
 import { Button } from "../../common/button";
 import { useRouter } from "next/router";
@@ -28,7 +29,9 @@ export const ProjectNavbar = ({ projects }: Props) => {
           </Link>
         ))}
 
-        <Button onClick={() => setProjectDialog(true)}>+</Button>
+        <Button onClick={() => setProjectDialog(true)}>
+          <FaPlus size={20} />
+        </Button>
       </div>
 
       {projectDialog && (

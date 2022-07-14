@@ -1,8 +1,8 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { Spinner } from "../../components/common/spinner";
+import { AppTitle, EmptyMessage } from "../../components/common/text";
 import { trpc } from "../../utils/trpc";
-import { AppTitle } from "../../components/common/text";
 
 const Project: NextPage = () => {
   const router = useRouter();
@@ -10,7 +10,7 @@ const Project: NextPage = () => {
   const { data, isLoading } = trpc.useQuery(["task.get", id as string]);
 
   if (isLoading) return <Spinner center />;
-  if (data == null) return <p>Nothing here...</p>;
+  if (data == null) return <EmptyMessage>Nothing here...</EmptyMessage>;
 
   return (
     <div className="relative flex-auto flex flex-col items-center justify-center">

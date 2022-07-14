@@ -1,13 +1,13 @@
 import type { NextPage } from "next";
 import { useMemo, useState } from "react";
-import { BiBookAdd } from "react-icons/bi";
+import { FaPlus } from "react-icons/fa";
 import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs";
 import { Spinner } from "../../components/common/spinner";
 import { trpc } from "../../utils/trpc";
 import { TaskCard } from "../../components/common/task-card";
 import { TaskDialog } from "../../components/common/task-dialog";
 import { AppTitle, Title } from "../../components/common/text";
-import { Button } from "../../components/common/button";
+import { Button, GhostButton } from "../../components/common/button";
 
 const tasksStyle =
   "w-full max-w-11/12 flex flex-wrap justify-center gap-4 md:max-w-4/5 lg:max-w-[1000px]";
@@ -34,6 +34,15 @@ const Project: NextPage = () => {
       <div className="flex-auto overflow-auto flex flex-col items-center gap-8 px-2 py-4 md:py-8">
         <AppTitle>Tasks</AppTitle>
 
+        <div className="flex justify-center p-4 gap-4">
+          <GhostButton onClick={() => setTaskDialog(true)}>
+            <FaPlus size={20} />
+            Add Task
+          </GhostButton>
+        </div>
+
+        <hr className="w-full border" />
+
         <Title>Pinned</Title>
 
         <div className={tasksStyle}>
@@ -42,17 +51,13 @@ const Project: NextPage = () => {
           ))}
         </div>
 
-        <Title></Title>
+        <Title>Tasks</Title>
 
         <div className={tasksStyle}>
           {otherTasks?.map((task) => (
             <TaskCard key={task.id} task={task} />
           ))}
         </div>
-
-        <Button onClick={() => setTaskDialog(true)}>
-          <BiBookAdd size={30} />
-        </Button>
 
         <div className="w-full max-w-md border rounded select-none p-4">
           <div
