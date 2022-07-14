@@ -72,7 +72,7 @@ export const TaskDialog = ({ onClose, projectId }: Props) => {
 
         <d.DialogFooter>
           <Button type="submit" disabled={errors == null}>
-            {isLoading ? <Spinner center /> : "Save"}
+            {isLoading ? <Spinner light /> : "Save"}
           </Button>
         </d.DialogFooter>
       </input.Form>

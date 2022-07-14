@@ -1,11 +1,12 @@
 import type { NextPage } from "next";
 import { useMemo, useState } from "react";
 import { BiBookAdd } from "react-icons/bi";
+import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs";
 import { Spinner } from "../../components/common/spinner";
 import { trpc } from "../../utils/trpc";
 import { TaskCard } from "../../components/common/task-card";
 import { TaskDialog } from "../../components/common/task-dialog";
-import { AppTitle } from "../../components/common/text";
+import { AppTitle, Title } from "../../components/common/text";
 import { Button } from "../../components/common/button";
 
 const tasksStyle =
@@ -13,17 +14,27 @@ const tasksStyle =
 
 const Project: NextPage = () => {
   const [taskDialog, setTaskDialog] = useState<boolean>(false);
+  const [showDone, setShowDone] = useState<boolean>(false);
 
   const { data, isLoading } = trpc.useQuery(["task.getAll"]);
   const pinnedTasks = useMemo(() => data?.filter((t) => t.pinned), [data]);
-  const otherTasks = useMemo(() => data?.filter((t) => !t.pinned), [data]);
+  const otherTasks = useMemo(
+    () => data?.filter((t) => !t.pinned && t.status !== "DONE"),
+    [data],
+  );
+  const doneTasks = useMemo(
+    () => data?.filter((t) => !t.pinned && t.status === "DONE"),
+    [data],
+  );
 
   if (isLoading) return <Spinner center />;
 
   return (
     <>
       <div className="flex-auto overflow-auto flex flex-col items-center gap-8 px-2 py-4 md:py-8">
-        <AppTitle>Pinned Tasks</AppTitle>
+        <AppTitle>Tasks</AppTitle>
+
+        <Title>Pinned</Title>
 
         <div className={tasksStyle}>
           {pinnedTasks?.map((task) => (
@@ -31,9 +42,7 @@ const Project: NextPage = () => {
           ))}
         </div>
 
-        <div className="h-10"></div>
-
-        <AppTitle>Tasks</AppTitle>
+        <Title></Title>
 
         <div className={tasksStyle}>
           {otherTasks?.map((task) => (
@@ -44,6 +53,31 @@ const Project: NextPage = () => {
         <Button onClick={() => setTaskDialog(true)}>
           <BiBookAdd size={30} />
         </Button>
+
+        <div className="w-full max-w-md border rounded select-none p-4">
+          <div
+            className="w-full max-w-md mx-auto flex items-center justify-between p-2 cursor-pointer"
+            onClick={() => setShowDone((val) => !val)}
+          >
+            <Title>Finished Tasks</Title>
+            {showDone ? (
+              <BsArrowUpShort size={30} />
+            ) : (
+              <BsArrowDownShort size={30} />
+            )}
+          </div>
+
+          {showDone && (
+            <>
+              <hr className="my-4"></hr>
+              <div className={tasksStyle}>
+                {doneTasks?.map((task) => (
+                  <TaskCard key={task.id} task={task} />
+                ))}
+              </div>
+            </>
+          )}
+        </div>
       </div>
 
       {taskDialog && <TaskDialog onClose={() => setTaskDialog(false)} />}
