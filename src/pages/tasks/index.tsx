@@ -3,8 +3,8 @@ import { useMemo, useState } from "react";
 import { BiBookAdd } from "react-icons/bi";
 import { Spinner } from "../../components/common/spinner";
 import { trpc } from "../../utils/trpc";
-import { TaskCard } from "../../components/app/TaskCard";
-import { TaskDialog } from "../../components/app/TaskDialog";
+import { TaskCard } from "../../components/common/task-card";
+import { TaskDialog } from "../../components/common/task-dialog";
 import { AppTitle } from "../../components/common/text";
 import { Button } from "../../components/common/button";
 

@@ -1,8 +1,8 @@
 import { Project } from "@prisma/client";
 import Link from "next/link";
 import { GiWhiteBook } from "react-icons/gi";
-import { Card } from "../common/card";
-import { Description, Title } from "../common/text";
+import { Card } from "./card";
+import { Description, Title } from "./text";
 
 type Props = {
   project: Project;

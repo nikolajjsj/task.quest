@@ -3,7 +3,7 @@ import { FaUserCircle, FaTasks } from "react-icons/fa";
 import { HiHome, HiTemplate } from "react-icons/hi";
 import { IoIosSettings } from "react-icons/io";
 import { RiTimerFlashLine } from "react-icons/ri";
-import { Spacer } from "../common/spacer";
+import { Spacer } from "./spacer";
 
 const iconStyle =
   "cursor-pointer h-6 w-6 text-white duration-500 md:h-8 md:w-8 hover:scale-105";

@@ -15,10 +15,7 @@ export const Button = ({ children, className, onClick }: Props) => {
   return (
     <button
       onClick={onClick}
-      className={
-        "bg-slate-800 text-white font-bold px-3 py-1 flex justify-center items-center gap-2 border border-transparent rounded-lg cursor-pointer shadow-sm" +
-        className
-      }
+      className={`text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg ${className}`}
     >
       {children}
     </button>

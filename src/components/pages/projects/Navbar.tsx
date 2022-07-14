@@ -1,7 +1,7 @@
 import { Project } from "@prisma/client";
 import Link from "next/link";
 import { useState } from "react";
-import { ProjectDialog } from "../../app/ProjectDialog";
+import { ProjectDialog } from "../../common/project-dialog";
 import { Button } from "../../common/button";
 
 type Props = {

@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { FeatureCard } from "../components/app/FeatureCard";
+import { FeatureCard } from "../components/common/feature-card";
 import { AppTitle } from "../components/common/text";
 import { SCREEN_XL } from "../styles/scales";
 

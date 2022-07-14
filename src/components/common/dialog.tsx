@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
-import { Title } from "../common/text";
+import { Title } from "./text";
 
 type Props = {
   title?: React.ReactNode;
