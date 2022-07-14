@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { FaUserCircle, FaTasks } from "react-icons/fa";
+import { FaUserCircle } from "react-icons/fa";
+import { GoListUnordered } from "react-icons/go";
 import { HiHome, HiTemplate } from "react-icons/hi";
 import { IoIosSettings } from "react-icons/io";
 import { RiTimerFlashLine } from "react-icons/ri";
@@ -40,7 +41,7 @@ export const Navbar = () => {
 
       <Link href="/tasks">
         <div>
-          <FaTasks
+          <GoListUnordered
             className={`${iconStyle} ${
               router.pathname.startsWith("/tasks") ? active : inactive
             }`}
