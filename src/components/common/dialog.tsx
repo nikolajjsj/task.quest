@@ -28,7 +28,7 @@ export function Dialog({
 
   return ReactDOM.createPortal(
     <div
-      className="fixed inset-0 flex flex-col justify-center items-center backdrop-blur-2xl"
+      className="fixed inset-0 flex flex-col justify-center items-center backdrop-blur-xl"
       onClick={
         closeOnClickOutside && onClose
           ? (e) => {
