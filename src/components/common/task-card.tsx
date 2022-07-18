@@ -1,12 +1,9 @@
 import { Project, Task } from "@prisma/client";
-import { RiTodoFill, RiDeleteBin7Fill } from "react-icons/ri";
-import { FaCheck } from "react-icons/fa";
-import { TiPin, TiPinOutline } from "react-icons/ti";
-import { Spinner } from "../common/spinner";
-import { Description, Title } from "../common/text";
-import { Spacer } from "../common/spacer";
+import * as bs from "react-icons/bs";
+import { Title } from "../common/text";
 import { useRouter } from "next/router";
 import { trpc } from "../../utils/trpc";
+import { Spacer } from "./spacer";
 
 type Props = {
   project?: Project;
@@ -15,69 +12,67 @@ type Props = {
 export const TaskCard = ({ task, project }: Props) => {
   const router = useRouter();
   const mutateTask = useMutateTask(project?.id);
-  const deleteTask = useDeleteTask(project?.id);
-
-  const loading = mutateTask.isLoading || deleteTask.isLoading;
+  const loading = mutateTask.isLoading;
 
   return (
-    <div
-      className="relative flex-auto w-full max-w-md shadow-md border rounded-lg p-6 cursor-pointer"
-      onClick={(e: any) => {
-        e.stopPropagation();
-        router.push(`/tasks/${task.id}`);
-      }}
-    >
-      <div className="flex items-center justify-between">
-        <div className="gap-2 flex-auto flex items-center">
-          {loading ? <Spinner /> : <RiTodoFill size={20} color={task.color} />}
+    <div className="flex flex-col flex-auto gap-1 w-full max-w-md border-b py-4">
+      <div className="flex-auto flex items-center gap-2">
+        {loading ? (
+          <bs.BsCircleHalf
+            size={20}
+            color={task.color}
+            className="animate-spin select-none"
+          />
+        ) : task.status === "DONE" ? (
+          <bs.BsCheckCircle
+            size={20}
+            color={task.color}
+            className="cursor-pointer hover:opacity-50"
+            onClick={() => mutateTask.mutate({ id: task.id, status: "TODO" })}
+          />
+        ) : (
+          <bs.BsCircle
+            size={20}
+            color={task.color}
+            className="cursor-pointer hover:opacity-50"
+            onClick={() => mutateTask.mutate({ id: task.id, status: "DONE" })}
+          />
+        )}
 
-          <Title>{task.title}</Title>
-
-          <Spacer direction="x" />
-
-          {task.pinned ? (
-            <TiPin
-              className="h-6 w-6 cursor-pointer"
-              onClick={(e: any) => {
-                e.stopPropagation();
-                mutateTask.mutate({ id: task.id, pinned: !task.pinned });
-              }}
-            />
-          ) : (
-            <TiPinOutline
-              className="h-6 w-6 cursor-pointer"
-              onClick={(e: any) => {
-                e.stopPropagation();
-                mutateTask.mutate({ id: task.id, pinned: !task.pinned });
-              }}
-            />
-          )}
-        </div>
+        <Title
+          className="flex-auto cursor-pointer"
+          onClick={() => router.push(`/tasks/${task.id}`)}
+        >
+          {task.title}
+        </Title>
       </div>
 
-      <Description className="py-4">{task.description}</Description>
+      <div className="flex-auto flex items-center gap-2 pl-7">
+        {task.date !== null && (
+          <p className="flex items-center gap-1 text-sm text-green-700">
+            <bs.BsCalendar2Minus size={15} /> {task.date.toDateString()}
+          </p>
+        )}
 
-      <div className="flex justify-end gap-6">
-        <FaCheck
-          className={`h-5 w-5 cursor-pointe ${
-            task.status === "DONE" ? "text-green-600" : "text-gray-400"
-          }`}
-          onClick={(e: any) => {
-            e.stopPropagation();
-            mutateTask.mutate({
-              id: task.id,
-              status: task.status === "DONE" ? "TODO" : "DONE",
-            });
-          }}
-        />
+        {task.tags.map((tag, idx) => (
+          <p
+            key={tag + idx}
+            className="flex items-center gap-1 text-sm text-gray-500"
+          >
+            <bs.BsFillTagFill size={15} /> {tag}
+          </p>
+        ))}
 
-        <RiDeleteBin7Fill
-          className={`h-5 w-5 cursor-pointe text-red-400`}
-          onClick={(e: any) => {
-            e.stopPropagation();
-            deleteTask.mutate(task.id);
-          }}
-        />
+        <Spacer direction="x" />
+
+        {project !== undefined && (
+          <p
+            className="flex items-center gap-1 text-sm cursor-pointer"
+            onClick={() => router.push(`/projects/${project.id}`)}
+          >
+            {project?.title}
+          </p>
+        )}
       </div>
     </div>
   );
@@ -87,19 +82,6 @@ const useMutateTask = (projectId?: string) => {
   const utils = trpc.useContext();
   return trpc.useMutation(["task.update"], {
     onSuccess: () => {
-      if (projectId !== undefined) {
-        utils.invalidateQueries(["project.get", { id: projectId }]);
-      } else {
-        utils.invalidateQueries(["task.getAll"]);
-      }
-    },
-  });
-};
-
-const useDeleteTask = (projectId?: string) => {
-  const utils = trpc.useContext();
-  return trpc.useMutation(["task.delete"], {
-    onSuccess: (data, variables) => {
       if (projectId !== undefined) {
         utils.invalidateQueries(["project.get", { id: projectId }]);
       } else {
