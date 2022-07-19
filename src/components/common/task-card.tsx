@@ -14,8 +14,14 @@ export const TaskCard = ({ task, project }: Props) => {
   const mutateTask = useMutateTask(project?.id);
   const loading = mutateTask.isLoading;
 
+  const isDone = task.status === "DONE";
+
   return (
-    <div className="flex flex-col flex-auto gap-1 w-full max-w-md border-b py-4">
+    <div
+      className={`flex flex-col flex-auto gap-1 w-full max-w-md border-b py-4 ${
+        isDone ? "opacity-30 py-1" : ""
+      }`}
+    >
       <div className="flex-auto flex items-center gap-2">
         {loading ? (
           <bs.BsCircleHalf
@@ -47,33 +53,35 @@ export const TaskCard = ({ task, project }: Props) => {
         </Title>
       </div>
 
-      <div className="flex-auto flex items-center gap-2 pl-7">
-        {task.date !== null && (
-          <p className="flex items-center gap-1 text-sm text-green-700">
-            <bs.BsCalendar2Minus size={15} /> {task.date.toDateString()}
-          </p>
-        )}
+      {!isDone && (
+        <div className="flex-auto flex items-center gap-2 pl-7">
+          {task.date !== null && (
+            <p className="flex items-center gap-1 text-sm text-green-700">
+              <bs.BsCalendar2Minus size={15} /> {task.date.toDateString()}
+            </p>
+          )}
 
-        {task.tags.map((tag, idx) => (
-          <p
-            key={tag + idx}
-            className="flex items-center gap-1 text-sm text-gray-500"
-          >
-            <bs.BsFillTagFill size={15} /> {tag}
-          </p>
-        ))}
+          {task.tags.map((tag, idx) => (
+            <p
+              key={tag + idx}
+              className="flex items-center gap-1 text-sm text-gray-500"
+            >
+              <bs.BsFillTagFill size={15} /> {tag}
+            </p>
+          ))}
 
-        <Spacer direction="x" />
+          <Spacer direction="x" />
 
-        {project !== undefined && (
-          <p
-            className="flex items-center gap-1 text-sm cursor-pointer"
-            onClick={() => router.push(`/projects/${project.id}`)}
-          >
-            {project?.title}
-          </p>
-        )}
-      </div>
+          {project !== undefined && (
+            <p
+              className="flex items-center gap-1 text-sm text-gray-700 font-semibold cursor-pointer"
+              onClick={() => router.push(`/projects/${project.id}`)}
+            >
+              {project?.title}
+            </p>
+          )}
+        </div>
+      )}
     </div>
   );
 };
