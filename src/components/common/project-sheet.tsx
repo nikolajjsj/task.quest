@@ -2,30 +2,23 @@ import { CirclePicker } from "react-color";
 import { useForm } from "react-hook-form";
 import { useQueryClient } from "react-query";
 import { trpc } from "../../utils/trpc";
-import { Button } from "../common/button";
-import * as input from "../common/inputs";
-import { Spinner } from "../common/spinner";
-import { Error } from "../common/text";
-import * as d from "../common/dialog";
+import { Button, GhostButton } from "./button";
+import * as input from "./inputs";
+import { Spinner } from "./spinner";
+import { Error } from "./text";
+import * as sheet from "./bottom-sheet";
 
 type Inputs = {
   title: string;
   description?: string;
-  tags: string;
   color: string;
-  date?: Date;
 };
 
-type Props = {
-  projectId?: string;
-  onClose: () => void;
-};
-export const TaskDialog = ({ onClose, projectId }: Props) => {
+export const ProjectSheet = ({ onClose }: { onClose: () => void }) => {
   const v = useQueryClient();
-  const { mutateAsync, isLoading } = trpc.useMutation(["task.create"], {
+  const { mutateAsync, isLoading } = trpc.useMutation(["project.create"], {
     onSuccess() {
-      v.invalidateQueries(["project.get", { id: projectId }]);
-      v.invalidateQueries(["task.getAll"]);
+      v.invalidateQueries(["project.getAll"]);
     },
   });
 
@@ -41,14 +34,19 @@ export const TaskDialog = ({ onClose, projectId }: Props) => {
   const color = watch("color");
 
   return (
-    <d.Dialog title="New Task" onClose={onClose} closeOnClickOutside closeOnEsc>
+    <sheet.BottomSheet
+      title="New Project"
+      onClose={onClose}
+      closeOnClickOutside
+      closeOnEsc
+    >
       <input.Form
         onSubmit={handleSubmit(async (data) => {
-          await mutateAsync({ ...data, projectId });
+          await mutateAsync(data);
           onClose();
         })}
       >
-        <d.DialogContent>
+        <sheet.BottomSheetContent>
           <input.InputGroup>
             <input.Label>Title</input.Label>
             <input.Input {...register("title", { required: true })} />
@@ -68,14 +66,18 @@ export const TaskDialog = ({ onClose, projectId }: Props) => {
               onChange={(color) => setValue("color", color.hex)}
             />
           </input.InputGroup>
-        </d.DialogContent>
+        </sheet.BottomSheetContent>
 
-        <d.DialogFooter>
-          <Button type="submit" disabled={errors == null}>
+        <sheet.BottomSheetFooter>
+          <GhostButton type="button" onClick={onClose}>
+            Close
+          </GhostButton>
+
+          <Button type="submit">
             {isLoading ? <Spinner light /> : "Save"}
           </Button>
-        </d.DialogFooter>
+        </sheet.BottomSheetFooter>
       </input.Form>
-    </d.Dialog>
+    </sheet.BottomSheet>
   );
 };

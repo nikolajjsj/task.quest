@@ -3,10 +3,10 @@ import { useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { Spinner } from "../../components/common/spinner";
 import { trpc } from "../../utils/trpc";
-import { TaskDialog } from "../../components/common/task-dialog";
 import { AppTitle } from "../../components/common/text";
 import { GhostButton } from "../../components/common/button";
 import { TaskList } from "../../components/common/task-list";
+import { TaskSheet } from "../../components/common/task-sheet";
 
 const Tasks: NextPage = () => {
   const [taskDialog, setTaskDialog] = useState<boolean>(false);
@@ -32,7 +32,7 @@ const Tasks: NextPage = () => {
         <TaskList tasks={data} />
       </div>
 
-      {taskDialog && <TaskDialog onClose={() => setTaskDialog(false)} />}
+      {taskDialog && <TaskSheet onClose={() => setTaskDialog(false)} />}
     </>
   );
 };

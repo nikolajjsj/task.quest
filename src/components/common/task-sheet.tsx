@@ -2,23 +2,30 @@ import { CirclePicker } from "react-color";
 import { useForm } from "react-hook-form";
 import { useQueryClient } from "react-query";
 import { trpc } from "../../utils/trpc";
-import { Button } from "./button";
+import { Button, GhostButton } from "./button";
 import * as input from "./inputs";
 import { Spinner } from "./spinner";
 import { Error } from "./text";
-import * as d from "./dialog";
+import * as sheet from "./bottom-sheet";
 
 type Inputs = {
   title: string;
   description?: string;
+  tags: string;
   color: string;
+  date?: Date;
 };
 
-export const ProjectDialog = ({ onClose }: { onClose: () => void }) => {
+type Props = {
+  projectId?: string;
+  onClose: () => void;
+};
+export const TaskSheet = ({ onClose, projectId }: Props) => {
   const v = useQueryClient();
-  const { mutateAsync, isLoading } = trpc.useMutation(["project.create"], {
+  const { mutateAsync, isLoading } = trpc.useMutation(["task.create"], {
     onSuccess() {
-      v.invalidateQueries(["project.getAll"]);
+      v.invalidateQueries(["project.get", { id: projectId }]);
+      v.invalidateQueries(["task.getAll"]);
     },
   });
 
@@ -34,19 +41,19 @@ export const ProjectDialog = ({ onClose }: { onClose: () => void }) => {
   const color = watch("color");
 
   return (
-    <d.Dialog
-      title="New Project"
+    <sheet.BottomSheet
+      title="New Task"
       onClose={onClose}
       closeOnClickOutside
       closeOnEsc
     >
       <input.Form
         onSubmit={handleSubmit(async (data) => {
-          await mutateAsync(data);
+          await mutateAsync({ ...data, projectId });
           onClose();
         })}
       >
-        <d.DialogContent>
+        <sheet.BottomSheetContent>
           <input.InputGroup>
             <input.Label>Title</input.Label>
             <input.Input {...register("title", { required: true })} />
@@ -66,14 +73,18 @@ export const ProjectDialog = ({ onClose }: { onClose: () => void }) => {
               onChange={(color) => setValue("color", color.hex)}
             />
           </input.InputGroup>
-        </d.DialogContent>
+        </sheet.BottomSheetContent>
 
-        <d.DialogFooter>
-          <Button type="submit">
+        <sheet.BottomSheetFooter>
+          <GhostButton type="button" onClick={onClose}>
+            Close
+          </GhostButton>
+
+          <Button type="submit" disabled={errors == null}>
             {isLoading ? <Spinner light /> : "Save"}
           </Button>
-        </d.DialogFooter>
+        </sheet.BottomSheetFooter>
       </input.Form>
-    </d.Dialog>
+    </sheet.BottomSheet>
   );
 };

@@ -4,12 +4,12 @@ import { FaPlus } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { Spinner } from "../../components/common/spinner";
-import { TaskDialog } from "../../components/common/task-dialog";
 import { ProjectNavbar } from "../../components/pages/projects/Navbar";
 import { trpc } from "../../utils/trpc";
 import { AppTitle, EmptyMessage } from "../../components/common/text";
 import { GhostButton } from "../../components/common/button";
 import { TaskList } from "../../components/common/task-list";
+import { TaskSheet } from "../../components/common/task-sheet";
 
 const Project: NextPage = () => {
   return (
@@ -50,7 +50,7 @@ const ProjectContent = () => {
       <div className="relative flex-auto w-full flex flex-col items-center overflow-auto py-8 px-4 gap-4">
         <AppTitle>{project.data.title}</AppTitle>
 
-        <div className="flex justify-center p-4 gap-4">
+        <div className="flex flex-col justify-center p-4 gap-4 sm:flex-row">
           <GhostButton onClick={() => setTaskDialog(true)}>
             <FaPlus size={20} />
             Add Task
@@ -68,7 +68,7 @@ const ProjectContent = () => {
       </div>
 
       {taskDialog && (
-        <TaskDialog
+        <TaskSheet
           projectId={project.data.id}
           onClose={() => setTaskDialog(false)}
         />

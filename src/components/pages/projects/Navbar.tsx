@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa";
-import { ProjectDialog } from "../../common/project-dialog";
 import { Button } from "../../common/button";
 import { useRouter } from "next/router";
 import { trpc } from "../../../utils/trpc";
+import { ProjectSheet } from "../../common/project-sheet";
 
 export const ProjectNavbar = () => {
   const router = useRouter();
@@ -34,7 +34,7 @@ export const ProjectNavbar = () => {
       </div>
 
       {projectDialog && (
-        <ProjectDialog onClose={() => setProjectDialog(false)} />
+        <ProjectSheet onClose={() => setProjectDialog(false)} />
       )}
     </>
   );
