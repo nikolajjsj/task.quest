@@ -1,13 +1,15 @@
 import { Task } from "@prisma/client";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
+import { CirclePicker } from "react-color";
 import { useForm } from "react-hook-form";
 import {
   Button,
   DeleteButton,
   GhostButton,
 } from "../../components/common/button";
+import * as input from "../../components/common/inputs";
 import { Spinner } from "../../components/common/spinner";
 import { EmptyMessage } from "../../components/common/text";
 import { trpc } from "../../utils/trpc";
@@ -30,9 +32,6 @@ const useDeleteTask = () => {
   });
 };
 
-const inputStyle =
-  "flex-auto border rounded p-2 focus:outline-none focus:ring focus:ring-indigo-400";
-
 const Project: NextPage = () => {
   const [editing, setEditing] = useState<boolean>(false);
   const router = useRouter();
@@ -48,9 +47,11 @@ const Project: NextPage = () => {
     handleSubmit,
     formState: { errors },
     setValue,
+    watch,
   } = useForm<Task>({
     defaultValues: data ?? {},
   });
+  const color = watch("color");
   const updateTask = async (values: Task) => {
     if (JSON.stringify(values) === JSON.stringify(data)) return;
     await mutateTask.mutateAsync(values);
@@ -73,90 +74,85 @@ const Project: NextPage = () => {
 
   return (
     <div className="flex-auto w-full max-w-screen-md mx-auto px-4 flex flex-col items-center justify-center">
-      <form
+      <input.Form
         className="w-full flex flex-col gap-2"
         onSubmit={handleSubmit(updateTask)}
       >
-        <label className="font-bold">Title</label>
-        <input
+        <input.Label>Title</input.Label>
+        <input.Input
           {...register("title", { required: true, disabled: !editing })}
-          className={inputStyle}
           type="text"
         />
 
         {spacer}
 
-        <label className="font-bold">Description</label>
-        <textarea
+        <input.Label>Description</input.Label>
+        <input.TextArea
           {...register("description", { disabled: !editing })}
-          className={inputStyle}
           rows={4}
         />
 
         {spacer}
 
         <div className="flex flex-col gap-4 md:flex-row">
-          <div className="flex-auto flex flex-col gap-2">
-            <label className="font-bold">Tags</label>
-            <input
+          <input.InputGroup>
+            <input.Label>Tags</input.Label>
+            <input.Input
               {...register("tags", { disabled: !editing })}
-              className={inputStyle}
               type="text"
             />
-          </div>
+          </input.InputGroup>
 
-          <div className="flex-auto flex flex-col gap-2">
-            <label className="font-bold">Date</label>
-            <input
+          <input.InputGroup>
+            <input.Label>Date</input.Label>
+            <input.Input
               {...register("date", { disabled: !editing, valueAsDate: true })}
-              className={inputStyle}
               type="datetime-local"
               defaultValue={data.date?.toISOString().slice(0, -1)}
             />
-          </div>
+          </input.InputGroup>
 
-          <div className="flex-auto flex flex-col gap-2">
-            <label className="font-bold">Status</label>
-            <input
+          <input.InputGroup>
+            <input.Label>Status</input.Label>
+            <input.Input
               {...register("status", { disabled: !editing })}
-              className={inputStyle}
               type="text"
             />
-          </div>
+          </input.InputGroup>
         </div>
 
         {spacer}
 
-        <div className="flex gap-4">
-          <div className="flex-auto flex items-center gap-2">
-            <label className="font-bold">Pinned</label>
-            <input
+        <div className="flex gap-8">
+          <input.InputGroup>
+            <input.Label>Color</input.Label>
+            <CirclePicker
+              {...register("color", { required: true })}
+              color={color}
+              onChange={(color) => setValue("color", color.hex)}
+            />
+          </input.InputGroup>
+
+          <input.InputGroup className="items-center">
+            <input.Label>Pinned</input.Label>
+            <input.Checkbox
               {...register("pinned", { disabled: !editing })}
               type="checkbox"
             />
-          </div>
+          </input.InputGroup>
 
-          <div className="flex-auto flex items-center gap-2">
-            <label className="font-bold">Priority</label>
-            <input
+          <input.InputGroup className="items-center">
+            <input.Label>Priority</input.Label>
+            <input.Checkbox
               {...register("priority", { disabled: !editing })}
               type="checkbox"
             />
-          </div>
-
-          <div className="flex-auto flex flex-col gap-2">
-            <label className="font-bold">Color</label>
-            <input
-              {...register("color", { disabled: !editing })}
-              type="color"
-              defaultValue={data.color}
-            />
-          </div>
+          </input.InputGroup>
         </div>
 
         {spacer}
 
-        <div className="flex gap-2 justify-center">
+        <div className="flex gap-8 justify-center">
           {editing ? (
             <>
               <DeleteButton
@@ -166,6 +162,7 @@ const Project: NextPage = () => {
               >
                 Delete
               </DeleteButton>
+
               <Button type="submit" disabled={!editing}>
                 Submit
               </Button>
@@ -176,7 +173,7 @@ const Project: NextPage = () => {
             </GhostButton>
           )}
         </div>
-      </form>
+      </input.Form>
     </div>
   );
 };

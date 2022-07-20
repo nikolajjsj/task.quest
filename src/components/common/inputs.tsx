@@ -12,7 +12,10 @@ export const Form = ({ children, ...props }: FormProps) => {
 type InputGroupProps = React.HTMLProps<HTMLDivElement>;
 export const InputGroup = ({ children, ...props }: InputGroupProps) => {
   return (
-    <div {...props} className="flex flex-col gap-1">
+    <div
+      {...props}
+      className={`flex-auto flex flex-col gap-1 ${props.className}`}
+    >
       {children}
     </div>
   );
@@ -21,7 +24,7 @@ export const InputGroup = ({ children, ...props }: InputGroupProps) => {
 type LabelProps = React.HTMLProps<HTMLLabelElement>;
 export const Label = ({ children, ...props }: LabelProps) => {
   return (
-    <label {...props} className="flex-auto font-semibold">
+    <label {...props} className="font-semibold">
       {children}
     </label>
   );
@@ -39,6 +42,14 @@ export const Input = React.forwardRef(function Input(
       className="flex-auto py-3 px-4 bg-white border border-slate-500 rounded-lg"
     />
   );
+});
+
+type InputCheckboxProps = React.HTMLProps<HTMLInputElement>;
+export const Checkbox = React.forwardRef(function Checkbox(
+  { children, ...props }: InputCheckboxProps,
+  ref,
+) {
+  return <input {...props} ref={ref as any} type="checkbox" />;
 });
 
 type TextAreaProps = React.HTMLProps<HTMLTextAreaElement>;
