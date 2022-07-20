@@ -1,5 +1,18 @@
 import { createRouter } from "./context";
 import { z } from "zod";
+import { TaskStatus } from "@prisma/client";
+
+const TASK_INPUT = z.object({
+  projectId: z.string().nullish(),
+  title: z.string(),
+  description: z.string().nullish(),
+  date: z.date().nullish(),
+  color: z.string(),
+  tag: z.string().nullish(),
+  status: z.nativeEnum(TaskStatus).default("TODO"),
+  priority: z.boolean().default(false),
+  pinned: z.boolean().default(false),
+});
 
 export const taskRouter = createRouter()
   .query("get", {
@@ -34,14 +47,7 @@ export const taskRouter = createRouter()
     },
   })
   .mutation("create", {
-    input: z.object({
-      projectId: z.string().nullish(),
-      title: z.string(),
-      description: z.string().nullish(),
-      date: z.date().nullish(),
-      color: z.string(),
-      tag: z.string().nullish(),
-    }),
+    input: TASK_INPUT,
     async resolve({ ctx, input }) {
       const userId = ctx.session?.id as string;
       if (userId == null) return;
@@ -55,44 +61,12 @@ export const taskRouter = createRouter()
     },
   })
   .mutation("update", {
-    input: z.object({
-      id: z.string(),
-      status: z.enum(["TODO", "INPROGRESS", "DONE", "CANCELLED"]).optional(),
-      pinned: z.boolean().optional(),
-    }),
+    input: TASK_INPUT.merge(z.object({ id: z.string() })),
     async resolve({ ctx, input }) {
       return await ctx.prisma.task.update({
         where: { id: input.id },
-        // select: { status: true },
-        data: { status: input.status, pinned: input.pinned },
+        data: { ...input },
+        include: { user: true },
       });
     },
   });
-// .mutation("toggle", {
-//   input: z.object({
-//     status: z
-//       .enum(["TODO", "INPROGRESS", "DONE", "CANCELLED"])
-//       .default("TODO"),
-//     id: z.string(),
-//   }),
-//   async resolve({ ctx, input }) {
-//     return await ctx.prisma.task.update({
-//       where: { id: input.id },
-//       select: { status: true },
-//       data: { status: input.status },
-//     });
-//   },
-// })
-// .mutation("pin", {
-//   input: z.object({
-//     pinned: z.boolean(),
-//     id: z.string(),
-//   }),
-//   async resolve({ ctx, input }) {
-//     return await ctx.prisma.task.update({
-//       where: { id: input.id },
-//       select: { pinned: true },
-//       data: { pinned: input.pinned },
-//     });
-//   },
-// });
