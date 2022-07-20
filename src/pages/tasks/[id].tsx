@@ -25,7 +25,6 @@ const useDeleteTask = () => {
   const router = useRouter();
   return trpc.useMutation(["task.delete"], {
     onSuccess: () => {
-      console.log("wow");
       router.back();
     },
   });
@@ -54,7 +53,6 @@ const Project: NextPage = () => {
   });
   const updateTask = async (values: Task) => {
     if (JSON.stringify(values) === JSON.stringify(data)) return;
-    console.log("updated task: ", values);
     await mutateTask.mutateAsync(values);
     setEditing(false);
   };

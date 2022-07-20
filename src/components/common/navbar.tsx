@@ -15,8 +15,6 @@ const inactive = "text-slate-500";
 export const Navbar = () => {
   const router = useRouter();
 
-  console.log(router.pathname);
-
   return (
     <nav className="sticky top-0 bottom-0 left-0 flex flex-col p-2 gap-6 md:p-3 border">
       <Link href="/">
