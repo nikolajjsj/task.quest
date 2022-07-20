@@ -69,7 +69,7 @@ export const Navbar = () => {
         </div>
       </Link>
 
-      <Link href="/settings">
+      {/* <Link href="/settings">
         <div>
           <IoIosSettings
             className={`${iconStyle} ${
@@ -77,7 +77,7 @@ export const Navbar = () => {
             }`}
           />
         </div>
-      </Link>
+      </Link> */}
     </nav>
   );
 };
