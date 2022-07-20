@@ -3,7 +3,11 @@ import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Button, GhostButton } from "../../components/common/button";
+import {
+  Button,
+  DeleteButton,
+  GhostButton,
+} from "../../components/common/button";
 import { Spinner } from "../../components/common/spinner";
 import { EmptyMessage } from "../../components/common/text";
 import { trpc } from "../../utils/trpc";
@@ -17,9 +21,18 @@ const useMutateTask = () => {
   });
 };
 
+const useDeleteTask = () => {
+  const router = useRouter();
+  return trpc.useMutation(["task.delete"], {
+    onSuccess: () => {
+      console.log("wow");
+      router.back();
+    },
+  });
+};
+
 const inputStyle =
   "flex-auto border rounded p-2 focus:outline-none focus:ring focus:ring-indigo-400";
-const checkboxStyle = "active:bg-indigo-400";
 
 const Project: NextPage = () => {
   const [editing, setEditing] = useState<boolean>(false);
@@ -28,7 +41,8 @@ const Project: NextPage = () => {
   const { data, isLoading } = trpc.useQuery(["task.get", id as string]);
 
   const mutateTask = useMutateTask();
-  const loading = mutateTask.isLoading;
+  const deleteTask = useDeleteTask();
+  const loading = mutateTask.isLoading || deleteTask.isLoading;
 
   const {
     register,
@@ -61,7 +75,7 @@ const Project: NextPage = () => {
 
   return (
     <div className="relative flex-auto flex flex-col items-center justify-center">
-      <form className="flex flex-col gap-4" onSubmit={handleSubmit(updateTask)}>
+      <form className="flex flex-col gap-2" onSubmit={handleSubmit(updateTask)}>
         <label>Title</label>
         <input
           {...register("title", { required: true, disabled: !editing })}
@@ -85,6 +99,16 @@ const Project: NextPage = () => {
           {...register("tags", { disabled: !editing })}
           className={inputStyle}
           type="text"
+        />
+
+        {spacer}
+
+        <label>Date</label>
+        <input
+          {...register("date", { disabled: !editing, valueAsDate: true })}
+          className={inputStyle}
+          type="datetime-local"
+          defaultValue={data.date?.toISOString().slice(0, -1)}
         />
 
         {spacer}
@@ -131,15 +155,26 @@ const Project: NextPage = () => {
 
         {spacer}
 
-        {editing ? (
-          <Button type="submit" disabled={!editing}>
-            Submit
-          </Button>
-        ) : (
-          <GhostButton type="button" onClick={() => setEditing((v) => !v)}>
-            Edit
-          </GhostButton>
-        )}
+        <div className="flex gap-2 justify-center">
+          {editing ? (
+            <>
+              <DeleteButton
+                type="button"
+                disabled={!editing}
+                onClick={async () => await deleteTask.mutateAsync(data.id)}
+              >
+                Delete
+              </DeleteButton>
+              <Button type="submit" disabled={!editing}>
+                Submit
+              </Button>
+            </>
+          ) : (
+            <GhostButton type="button" onClick={() => setEditing((v) => !v)}>
+              Edit
+            </GhostButton>
+          )}
+        </div>
       </form>
     </div>
   );
