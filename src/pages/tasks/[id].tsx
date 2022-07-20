@@ -52,7 +52,7 @@ const Project: NextPage = () => {
       const d = data as any;
       setValue(k, d[k]);
     }
-  }, [data]);
+  }, [data, setValue]);
 
   if (isLoading || loading) return <Spinner center />;
   if (data == null) return <EmptyMessage>Nothing here...</EmptyMessage>;
