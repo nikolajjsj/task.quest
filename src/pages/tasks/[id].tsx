@@ -72,9 +72,12 @@ const Project: NextPage = () => {
   const spacer = <div className="my-2"></div>;
 
   return (
-    <div className="relative flex-auto flex flex-col items-center justify-center">
-      <form className="flex flex-col gap-2" onSubmit={handleSubmit(updateTask)}>
-        <label>Title</label>
+    <div className="flex-auto w-full max-w-screen-md mx-auto px-4 flex flex-col items-center justify-center">
+      <form
+        className="w-full flex flex-col gap-2"
+        onSubmit={handleSubmit(updateTask)}
+      >
+        <label className="font-bold">Title</label>
         <input
           {...register("title", { required: true, disabled: !editing })}
           className={inputStyle}
@@ -83,7 +86,7 @@ const Project: NextPage = () => {
 
         {spacer}
 
-        <label>Description</label>
+        <label className="font-bold">Description</label>
         <textarea
           {...register("description", { disabled: !editing })}
           className={inputStyle}
@@ -92,41 +95,32 @@ const Project: NextPage = () => {
 
         {spacer}
 
-        <label>Tags</label>
-        <input
-          {...register("tags", { disabled: !editing })}
-          className={inputStyle}
-          type="text"
-        />
-
-        {spacer}
-
-        <label>Date</label>
-        <input
-          {...register("date", { disabled: !editing, valueAsDate: true })}
-          className={inputStyle}
-          type="datetime-local"
-          defaultValue={data.date?.toISOString().slice(0, -1)}
-        />
-
-        {spacer}
-
-        <div className="flex gap-4">
+        <div className="flex flex-col gap-4 md:flex-row">
           <div className="flex-auto flex flex-col gap-2">
-            <label>Status</label>
+            <label className="font-bold">Tags</label>
             <input
-              {...register("status", { disabled: !editing })}
+              {...register("tags", { disabled: !editing })}
               className={inputStyle}
               type="text"
             />
           </div>
 
           <div className="flex-auto flex flex-col gap-2">
-            <label>Color</label>
+            <label className="font-bold">Date</label>
             <input
-              {...register("color", { disabled: !editing })}
-              type="color"
-              defaultValue={data.color}
+              {...register("date", { disabled: !editing, valueAsDate: true })}
+              className={inputStyle}
+              type="datetime-local"
+              defaultValue={data.date?.toISOString().slice(0, -1)}
+            />
+          </div>
+
+          <div className="flex-auto flex flex-col gap-2">
+            <label className="font-bold">Status</label>
+            <input
+              {...register("status", { disabled: !editing })}
+              className={inputStyle}
+              type="text"
             />
           </div>
         </div>
@@ -134,19 +128,28 @@ const Project: NextPage = () => {
         {spacer}
 
         <div className="flex gap-4">
-          <div className="flex-auto flex gap-2">
-            <label>Pinned</label>
+          <div className="flex-auto flex items-center gap-2">
+            <label className="font-bold">Pinned</label>
             <input
               {...register("pinned", { disabled: !editing })}
               type="checkbox"
             />
           </div>
 
-          <div className="flex-auto flex gap-2">
-            <label>Priority</label>
+          <div className="flex-auto flex items-center gap-2">
+            <label className="font-bold">Priority</label>
             <input
               {...register("priority", { disabled: !editing })}
               type="checkbox"
+            />
+          </div>
+
+          <div className="flex-auto flex flex-col gap-2">
+            <label className="font-bold">Color</label>
+            <input
+              {...register("color", { disabled: !editing })}
+              type="color"
+              defaultValue={data.color}
             />
           </div>
         </div>
