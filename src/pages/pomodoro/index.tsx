@@ -1,6 +1,5 @@
 import Head from "next/head";
 import { useCallback, useEffect, useReducer, useState } from "react";
-import { BsSkipEnd } from "react-icons/bs";
 import { formatTime } from "../../utils/time";
 import * as r from "../../hooks/reducers/pomodoro.reducer";
 import { AppTitle } from "../../components/common/text";
@@ -137,19 +136,26 @@ const Pomodoro = () => {
 
         <div className="flex flex-col items-center gap-4 sm:flex-row">
           {state.tickerId === undefined && (
-            <Button onClick={start}>Start</Button>
+            <Button className="uppercase" onClick={start}>
+              Start
+            </Button>
           )}
 
-          {state.tickerId !== undefined && <Button onClick={stop}>Stop</Button>}
+          {state.tickerId !== undefined && (
+            <Button className="uppercase" onClick={stop}>
+              Stop
+            </Button>
+          )}
 
           {state.tickerId !== undefined && (
             <Button
+              className="bg-red-400"
               onClick={() => {
                 stop();
                 dispatch({ type: "NEXT_CYCLE", setTime });
               }}
             >
-              <BsSkipEnd />
+              Next
             </Button>
           )}
         </div>
