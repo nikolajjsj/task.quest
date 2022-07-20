@@ -34,14 +34,14 @@ export const TaskCard = ({ task, project }: Props) => {
             size={20}
             color={task.color}
             className="cursor-pointer hover:opacity-50"
-            onClick={() => mutateTask.mutate({ id: task.id, status: "TODO" })}
+            onClick={() => mutateTask.mutate({ ...task, status: "TODO" })}
           />
         ) : (
           <bs.BsCircle
             size={20}
             color={task.color}
             className="cursor-pointer hover:opacity-50"
-            onClick={() => mutateTask.mutate({ id: task.id, status: "DONE" })}
+            onClick={() => mutateTask.mutate({ ...task, status: "DONE" })}
           />
         )}
 
