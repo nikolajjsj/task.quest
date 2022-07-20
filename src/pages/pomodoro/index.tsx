@@ -4,7 +4,7 @@ import { BsSkipEnd } from "react-icons/bs";
 import { formatTime } from "../../utils/time";
 import * as r from "../../hooks/reducers/pomodoro.reducer";
 import { AppTitle } from "../../components/common/text";
-import { Button, GhostButton } from "../../components/common/button";
+import { Button } from "../../components/common/button";
 
 type TypeButtonProps = {
   type: r.POMODORO_TYPE;
@@ -19,14 +19,16 @@ const TypeButton = ({
   children,
 }: TypeButtonProps) => {
   return (
-    <GhostButton
-      className={`bg-transparent border-none font-bold uppercase text-sm sm:text-lg md:text-xl ${
-        type === selectedType ? "bg-white text-black" : ""
+    <button
+      className={`flex items-center justify-center gap-2 py-2 px-6 focus:outline-none rounded border cursor-pointer border-none font-bold uppercase text-sm sm:text-lg md:text-x ${
+        type === selectedType
+          ? "bg-white text-black"
+          : "bg-transparent text-white hover:bg-red-50 hover:text-black"
       }`}
       onClick={() => updateType(type)}
     >
       {children}
-    </GhostButton>
+    </button>
   );
 };
 
