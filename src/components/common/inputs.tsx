@@ -12,10 +12,7 @@ export const Form = ({ children, ...props }: FormProps) => {
 type InputGroupProps = React.HTMLProps<HTMLDivElement>;
 export const InputGroup = ({ children, ...props }: InputGroupProps) => {
   return (
-    <div
-      {...props}
-      className={`flex-auto flex flex-col gap-1 ${props.className}`}
-    >
+    <div {...props} className={`flex flex-col gap-1 ${props.className}`}>
       {children}
     </div>
   );

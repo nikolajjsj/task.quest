@@ -73,24 +73,29 @@ const Project: NextPage = () => {
   const spacer = <div className="my-2"></div>;
 
   return (
-    <div className="flex-auto w-full max-w-screen-md mx-auto px-4 flex flex-col items-center justify-center">
+    <div className="flex-auto overflow-auto flex flex-col items-center">
       <input.Form
-        className="w-full flex flex-col gap-2"
+        className="w-full max-w-screen-md py-12 px-4"
         onSubmit={handleSubmit(updateTask)}
       >
-        <input.Label>Title</input.Label>
-        <input.Input
-          {...register("title", { required: true, disabled: !editing })}
-          type="text"
-        />
+        {spacer}
+        <input.InputGroup>
+          <input.Label>Title</input.Label>
+          <input.Input
+            {...register("title", { required: true, disabled: !editing })}
+            type="text"
+          />
+        </input.InputGroup>
 
         {spacer}
 
-        <input.Label>Description</input.Label>
-        <input.TextArea
-          {...register("description", { disabled: !editing })}
-          rows={4}
-        />
+        <input.InputGroup>
+          <input.Label>Description</input.Label>
+          <input.TextArea
+            {...register("description", { disabled: !editing })}
+            rows={4}
+          />
+        </input.InputGroup>
 
         {spacer}
 
@@ -123,16 +128,18 @@ const Project: NextPage = () => {
 
         {spacer}
 
-        <div className="flex gap-8">
-          <input.InputGroup>
-            <input.Label>Color</input.Label>
-            <CirclePicker
-              {...register("color", { required: true })}
-              color={color}
-              onChange={(color) => setValue("color", color.hex)}
-            />
-          </input.InputGroup>
+        <input.InputGroup className="items-center">
+          <input.Label>Color</input.Label>
+          <CirclePicker
+            {...register("color", { required: true })}
+            color={color}
+            onChange={(color) => setValue("color", color.hex)}
+          />
+        </input.InputGroup>
 
+        {spacer}
+
+        <div className="flex flex-col justify-center gap-8 md:flex-row">
           <input.InputGroup className="items-center">
             <input.Label>Pinned</input.Label>
             <input.Checkbox
@@ -173,6 +180,7 @@ const Project: NextPage = () => {
             </GhostButton>
           )}
         </div>
+        {spacer}
       </input.Form>
     </div>
   );
