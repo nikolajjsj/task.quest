@@ -4,6 +4,7 @@ import { Title } from "../common/text";
 import { useRouter } from "next/router";
 import { trpc } from "../../utils/trpc";
 import { Spacer } from "./spacer";
+import { formatDateRelative } from "../../utils/time";
 
 type Props = {
   project?: Project;
@@ -56,8 +57,12 @@ export const TaskCard = ({ task, project }: Props) => {
       {!isDone && (
         <div className="flex-auto flex items-center gap-2 pl-7">
           {task.date !== null && (
-            <p className="flex items-center gap-1 text-sm text-green-700">
-              <bs.BsCalendar2Minus size={15} /> {task.date.toDateString()}
+            <p
+              className={`flex items-center gap-1 text-sm ${
+                new Date() < task.date ? "text-green-700" : "text-red-700"
+              }`}
+            >
+              <bs.BsCalendar2Minus size={15} /> {formatDateRelative(task.date)}
             </p>
           )}
 
