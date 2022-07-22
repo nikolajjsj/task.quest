@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Spinner } from "../../components/common/spinner";
 import { ProjectCard } from "../../components/common/project-card";
 import { trpc } from "../../utils/trpc";
-import { AppTitle } from "../../components/common/text";
+import { AppTitle, EmptyMessage } from "../../components/common/text";
 import { GhostButton } from "../../components/common/button";
 import { SCREEN_XL } from "../../styles/scales";
 import { FaPlus } from "react-icons/fa";
@@ -26,6 +26,8 @@ const Project: NextPage = () => {
             Add Project
           </GhostButton>
         </div>
+
+        {data?.length === 0 && <EmptyMessage>No Projects Yet!</EmptyMessage>}
 
         <div
           className={`w-11/12 max-w-[${SCREEN_XL}px] grid mx-auto gap-4 grid-cols-1 sm:w-9/10 sm:grid-cols-2 lg:4/5 lg:grid-cols-3`}
