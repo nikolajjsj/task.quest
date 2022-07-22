@@ -66,6 +66,14 @@ export const TaskSheet = ({ onClose, projectId }: Props) => {
           </input.InputGroup>
 
           <input.InputGroup>
+            <input.Label>Date</input.Label>
+            <input.Input
+              {...register("date", { valueAsDate: true })}
+              type="datetime-local"
+            />
+          </input.InputGroup>
+
+          <input.InputGroup>
             <input.Label>Color</input.Label>
             <CirclePicker
               {...register("color", { required: true })}
