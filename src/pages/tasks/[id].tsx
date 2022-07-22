@@ -54,7 +54,7 @@ const Project: NextPage = () => {
   const color = watch("color");
   const updateTask = async (values: Task) => {
     if (JSON.stringify(values) === JSON.stringify(data)) return;
-    await mutateTask.mutateAsync(values);
+    await mutateTask.mutateAsync({ ...values });
     setEditing(false);
   };
 
@@ -85,6 +85,9 @@ const Project: NextPage = () => {
             {...register("title", { required: true, disabled: !editing })}
             type="text"
           />
+          {errors.title?.message !== undefined && (
+            <input.Error>Title required</input.Error>
+          )}
         </input.InputGroup>
 
         {spacer}
@@ -99,15 +102,18 @@ const Project: NextPage = () => {
 
         {spacer}
 
-        <div className="flex flex-col gap-4 md:flex-row">
-          <input.InputGroup>
-            <input.Label>Tags</input.Label>
-            <input.Input
-              {...register("tags", { disabled: !editing })}
-              type="text"
-            />
-          </input.InputGroup>
+        <input.InputGroup>
+          <input.Label>Tags</input.Label>
+          <input.TagsInput
+            disabled={!editing}
+            initialTags={data.tags}
+            onChange={(tags) => setValue("tags", tags)}
+          />
+        </input.InputGroup>
 
+        {spacer}
+
+        <div className="flex flex-col gap-4 md:flex-row">
           <input.InputGroup>
             <input.Label>Date</input.Label>
             <input.Input
@@ -162,6 +168,10 @@ const Project: NextPage = () => {
         <div className="flex gap-8 justify-center">
           {editing ? (
             <>
+              <GhostButton type="button" onClick={() => setEditing(false)}>
+                Cancel
+              </GhostButton>
+
               <DeleteButton
                 type="button"
                 disabled={!editing}

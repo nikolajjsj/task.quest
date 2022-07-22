@@ -38,7 +38,7 @@ export function BottomSheet({
       }
     >
       <div
-        className="flex flex-col w-full max-w-lg overflow-hidden border rounded-t-2xl bg-white text-black"
+        className="flex flex-col w-full max-w-md overflow-hidden border rounded-t-2xl bg-white text-black"
         ref={sheetRef}
         tabIndex={-1}
         onKeyDown={
@@ -68,7 +68,7 @@ export const BottomSheetContent = ({
   ...props
 }: BottomSheetContentProps) => {
   return (
-    <div {...props} className="flex-auto px-4 pt-4 gap-8 flex flex-col">
+    <div {...props} className="flex-auto flex flex-col px-4 pt-4 gap-8">
       {children}
     </div>
   );

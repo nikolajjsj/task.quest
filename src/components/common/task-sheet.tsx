@@ -11,7 +11,7 @@ import * as sheet from "./bottom-sheet";
 type Inputs = {
   title: string;
   description?: string;
-  tags: string;
+  tags: string[];
   color: string;
   date?: Date;
 };
@@ -71,6 +71,11 @@ export const TaskSheet = ({ onClose, projectId }: Props) => {
               {...register("date", { valueAsDate: true })}
               type="datetime-local"
             />
+          </input.InputGroup>
+
+          <input.InputGroup>
+            <input.Label>Tags</input.Label>
+            <input.TagsInput onChange={(tags) => setValue("tags", tags)} />
           </input.InputGroup>
 
           <input.InputGroup>

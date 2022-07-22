@@ -8,7 +8,7 @@ const TASK_INPUT = z.object({
   description: z.string().nullish(),
   date: z.date().nullish(),
   color: z.string(),
-  tag: z.string().nullish(),
+  tags: z.string().array().default([]),
   status: z.nativeEnum(TaskStatus).default("TODO"),
   priority: z.boolean().default(false),
   pinned: z.boolean().default(false),
